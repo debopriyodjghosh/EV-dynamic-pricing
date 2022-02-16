@@ -1,0 +1,19 @@
+EV explorer - https://gis.its.ucdavis.edu/evexplorer/#!/
+
+my map - https://www.google.com/maps/d/edit?mid=1cUVjbGVd1gaPbquH_w47nPR99ZrrDpG7&ll=22.54211743287197%2C88.3788765607422&z=11
+
+embeded maps
+<iframe src="https://www.google.com/maps/d/embed?mid=1cUVjbGVd1gaPbquH_w47nPR99ZrrDpG7&ehbc=2E312F" width="640" height="480"></iframe>
+
+system
+https://www.sourcecodester.com/php/15040/gaspetrol-station-management-system-php-and-sqlite-free-source-code.html
+video of system
+https://www.youtube.com/watch?v=ReyYcwxtM8c&t=32s
+
+quora
+https://www.quora.com/Is-there-a-way-to-export-Google-Map-markers-to-an-Excel-sheet-in-the-new-Google-Maps-format
+
+map to Excel
+https://www.bpwebs.com/how-to-export-google-my-maps-data-table-to-excel/
+
+https://www.google.com/earth/outreach/learn/visualize-your-data-on-a-custom-map-using-google-my-maps/
