@@ -3,7 +3,10 @@ from operator import truediv
 from flask import Flask, jsonify
 import math
 import random
+import pickle
 from flask_cors import CORS
+import numpy as np
+model = pickle.load(open('prediction.pkl','rb'))
 app = Flask(__name__)
 CORS(app)
 
@@ -24,14 +27,14 @@ if __name__=="__main__":
     app.run(debug=True)
     
 def getLambdaOptimal():
-    lamb = 15
-    arrival=[4,5,4,3,4]
+    lamb = 50
+    serviceRate=[6,7,10,9,11]
     sum=0
     lowersum=0
-    for rate in arrival:
-        x = math.sqrt(arrival[0]*rate)-rate
+    for rate in serviceRate:
+        x = math.sqrt(serviceRate[0]*rate)-rate
         sum = sum+x
-        lower=rate//arrival[0]
+        lower=rate//serviceRate[0]
         lower=math.sqrt(lower)
         lowersum=lowersum+lower
     upper_side=lamb+sum
@@ -39,9 +42,11 @@ def getLambdaOptimal():
     return lambdaOptimal
 
 def getPredictedLambda():
-    list1 = [ 4, 5, 6]
-    predicted = random.choice(list1)
+    arr = np.array([[11,6,0,1,2015,11,2]])
+    predicted = model.predict(arr)
+    predicted = int(predicted)
     return predicted 
+
 
 def getPreviousPrice():
     prices = [ 10,11,12,13,14,15]
