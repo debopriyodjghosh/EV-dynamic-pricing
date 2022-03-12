@@ -1,0 +1,263 @@
+[{
+  "_id": {
+    "$oid": "622c42bd20d7a9fca38c01a6"
+  },
+  "id": "1",
+  "Arrival_rate": "5",
+  "Previous_price": "5",
+  " cur_price": "5",
+  "timestamp": "1/1/2",
+  "service_rate": "50"
+},{
+  "_id": {
+    "$oid": "622c43b96c13c505f0a919d8"
+  },
+  "id": "10",
+  "Arrival_rate": "5",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c43eb8e9c0687182cee31"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c440301bfeb3e8818325f"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c45898e8d003c46f59a10"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c45a2615c4ddd93d28b82"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c9d8cef851714ce6db19e"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca6ee3bdb9ba167f04652"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca7112d81b0dc25f391ef"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca7142944473c9d159418"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca71eb69ac24044d28536"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca8cb0154f5cf00884bce"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca8d6812ef2dce05836aa"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca9147930347373c4a6ba"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca91f2380c2ae87ec6869"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca93328b4b285930f9b0b"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca93d214c6d00f5ba7e31"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca9b1762c1adb4fc472bf"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca9b67d2169042d803f23"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622ca9d6b0e07ccf90ea89b2"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caa044996ef673afcf874"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caa14b734c7a06a03ad1f"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caa2099a6e84f9e92d2cc"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caa57c85aaec7eee8ffad"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caa6bd016fa4776790a6f"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caa88beb937a6d19d884b"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caa9322e0600dd2eccf3b"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caaa3c387a5a1ab361c7b"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622caaacb1ee9e9407b59865"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+}]

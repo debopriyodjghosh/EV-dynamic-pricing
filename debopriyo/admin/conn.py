@@ -26,13 +26,21 @@ rec1 = mytab.insert_one({
 })
 
 #print
-cursor = mytab.find()
-for record in cursor:
-   print(record)
+# cursor = mytab.find()
+# for record in cursor:
+#    print(record)
 
 #query
-for i in mytab.find({"id": "11"}):
-    print(i)
+# for i in mytab.find({"id": "11"}):
+#     print(i)
 
-#
+#db.collection.findOne().sort({'_id':-1}).limit(1)
+#print( mydb.test.find().limit(1).sort({id:-1}))
+#sort({_id:-1}).limit(1);
+#print(mydb.test.find().sort({_id:-1}).limit(1))
+
+new=dict(mydb.test.find().limit(1).sort([('$natural', -1)]).next())
+print(new['Previous_price'])
+
+
 

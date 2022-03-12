@@ -1,6 +1,6 @@
 import pandas as pd
 import pickle
-train = pd.read_csv('train.csv')
+train = pd.read_csv('C:/xampp/htdocs/vehicle/JUN 4 17.csv')
 def get_dom(dt):
 	return dt.day
 
@@ -48,4 +48,4 @@ m1=RandomForestRegressor()
 
 m1.fit(train1,target)
 
-pickle.dump(m1,open('prediction.pkl','wb'))
+pickle.dump(m1,open('prediction10.pkl','wb'))
