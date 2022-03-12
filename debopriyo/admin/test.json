@@ -1,0 +1,56 @@
+[{
+  "_id": {
+    "$oid": "622c42bd20d7a9fca38c01a6"
+  },
+  "id": "1",
+  "Arrival_rate": "5",
+  "Previous_price": "5",
+  " cur_price": "5",
+  "timestamp": "1/1/2",
+  "service_rate": "50"
+},{
+  "_id": {
+    "$oid": "622c43b96c13c505f0a919d8"
+  },
+  "id": "10",
+  "Arrival_rate": "5",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c43eb8e9c0687182cee31"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c440301bfeb3e8818325f"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c45898e8d003c46f59a10"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+},{
+  "_id": {
+    "$oid": "622c45a2615c4ddd93d28b82"
+  },
+  "id": "11",
+  "Arrival_rate": "6",
+  "Previous_price": "60",
+  "cur_price": "50",
+  "timestamp": "1/1/2"
+}]
