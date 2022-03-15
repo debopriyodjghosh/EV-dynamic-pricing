@@ -7,8 +7,7 @@ import pickle
 from flask_cors import CORS
 import numpy as np
 from pymongo import MongoClient
-from datetime import datetime
-import time
+ 
 
 #connect
 try:
@@ -19,9 +18,9 @@ except:
 
 model=[]
 for i in range (1,11):
-    file='prediction'+str(i)+'.pkl'
-    print(file)
-    model[i] = pickle.load(open(file,'rb'))
+   file='C://xampp//htdocs//vehicle//'+'JunModel'+str(i)+'.pkl'
+   m1=pickle.load(open(file,'rb'))
+   model.append(m1)
 
 
 app = Flask(__name__)
@@ -44,8 +43,26 @@ def getprice():
         predictedLambda=getPredictedLambda(i)
         difference=predictedLambda-optimalLambda
         nextPrice = previousPrice + getGamma()*difference
-        return jsonify(nextPrice)
-        # update in database
+    #save to database
+        jun='jun'+str(i)
+        dt = datetime.now()
+        id= jun+"_"+str(dt.year)+str(dt.month)+str(dt.day)+str(dt.hour)
+        mydb = client.EV
+        mytab = mydb[jun]
+        
+        rec = mytab.insert_one({
+        "id" : id,
+        "Arrival_rate" : 0,
+        "Service_rate" : 0,
+        "Previous_price" :0,
+        "cur_price" : nextPrice,
+        "time" : dt
+        })
+    
+        #return jsonify(nextPrice)
+        #fuck previous price
+        #fuck Arrival rate
+
 def getLambdaOptimal(i):
     lambSum = getSumoflambda();
     serviceRate=getServicerate();
@@ -87,7 +104,26 @@ def getGamma():
     return gamma
 
 def getSumoflambda():
-    # fetch all prevlambda and add them
+    sum=0
+    for i in range(1,11):
+        jun='jun'+str(i)
+        mydb = client.EV
+        mytab = mydb[jun]
+        new=dict(mydb[jun].find().limit(1).sort([('$natural', -1)]).next())
+
+        sum=sum+new['Arrival_rate']
+
+    return sum
 
 def getServicerate():
-    # return the list of service rates
+    li=[]
+    for i in range(1,11):
+        jun='jun'+str(i)
+        mydb = client.EV
+        mytab = mydb[jun]
+        new=dict(mydb[jun].find().limit(1).sort([('$natural', -1)]).next())
+        print(new['Service_rate'])
+        li.append(new['Service_rate'])
+
+    return li
+   
