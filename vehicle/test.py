@@ -1,3 +1,7 @@
-for i in range (1,11):
-    file='prediction'+str(i)+'.pkl'
-    print(file)
+import time
+def foo():
+  print (time.ctime())
+
+while True:
+  foo()
+  time.sleep(10)
