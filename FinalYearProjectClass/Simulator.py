@@ -159,6 +159,8 @@ for i in range(2):
     given_time+=datetime.timedelta(hours=1)
     print("Arrival Rate=",jun.arrival_rate)
     print("Service Rate=",jun.service_Rate)
+    queue_Size=my_Collection.count_documents({"charge_status":{"$in":["Charging","Wait"]}})
+    print("queue size"+str(queue_Size))
     jun.service_Rate=0
     jun.arrival_rate=0
 
