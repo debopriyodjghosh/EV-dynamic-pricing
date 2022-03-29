@@ -77,19 +77,19 @@ def arrival_Thread(charging_station,thread_object,rand_List,starting_Time,my_Col
     while (i<60):
         thread_object.thread_synchronize_arrival=True
         starting_Time=starting_Time+datetime.timedelta(minutes=1)
-        index=random.randint(0,9)
+        index=random.randint(0,14)
         no_Of_Cars=rand_List[index]
         while(no_Of_Cars!=0):
 
+            while(thread_object.thred_Pause_Variable):
+                continue
             if(charging_station.no_Of_Ports_Available>0):
                 c=Car.Car(starting_Time,"Charging")
                 charging_station.no_Of_Ports_Available-=1
 
-            elif(charging_station.no_Of_Ports_Available==0 and thread_object.thred_Pause_Variable):
-                print("sfsgfsgf")
-                continue
-
-            else:
+            elif(charging_station.no_Of_Ports_Available==0):
+                #print("sfsgfsgf")
+                #continue
                 c=Car.Car(starting_Time,"Wait")
 
             charging_station.arrival_rate+=1
@@ -108,12 +108,13 @@ def arrival_Thread(charging_station,thread_object,rand_List,starting_Time,my_Col
         thread_object.thread_synchronize_arrival=False
         while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
             continue
-        time.sleep(1)
+        time.sleep(.5)
         print(str(charging_station.no_Of_Ports_Available)+"*****")
         i+=1
 
 def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection):         
             i=1
+            j=0
             while (i<=59):
                 thread_object.thread_synchronize_dis=True
                 current_Time=current_Time+datetime.timedelta(minutes=1)
@@ -122,12 +123,13 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection):
                     thread_object.thred_Pause_Variable=True
                     dis_id=dispatch_information["reg_id"]
                     my_Collection.update_many({"reg_id":dis_id},{"$set":{"charge_status":"Finish",}})
-                    #print(dispatch_information)
+                    j+=1
+                    #print(j)
                     charging_station.no_Of_Ports_Available+=1
                     charging_station.service_Rate+=1
                     wait_Result=my_Collection.find({"charge_status":"Wait"}).limit(1).sort("arr_Time",1)
                     for wait_information in wait_Result:
-                        print("hhhh")
+                        #print("hhhh")
                         wait_id=wait_information["reg_id"]
                         need_charge=wait_information["need_charge"]
                         set_dis_time=current_Time+datetime.timedelta(seconds=(.5*need_charge*60))
@@ -137,20 +139,26 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection):
                 thread_object.thread_synchronize_dis=False
                 while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
                     continue
-                time.sleep(1)
+                time.sleep(.5)
+                print(str(charging_station.no_Of_Ports_Available)+"+++++")
                 i+=1
 
 jun=cs.Charging_Station(1,15,8,9)
 th=t()
-rand_List=[0,1,0,1,0,4,0,1,0,1]
+rand_List=[0,1,0,4,0,1,0,1,0,0,0,2,0,1,0]
 starting_Time="2022-3-22 17:00:00"
 date_format_str = '%Y-%m-%d %H:%M:%S'
 given_time = datetime.datetime.strptime(starting_Time, date_format_str)
-t1 = threading.Thread(target = arrival_Thread, args=(jun,th,rand_List,given_time,my_Collection))
-t2= threading.Thread(target = Dispatch_Thread,args=(jun,th,given_time,my_Collection))
-t1.start()
-t2.start()
-t2.join()
-t1.join()
-
+for i in range(2):
+    t1 = threading.Thread(target = arrival_Thread, args=(jun,th,rand_List,given_time,my_Collection))
+    t2= threading.Thread(target = Dispatch_Thread,args=(jun,th,given_time,my_Collection))
+    t1.start()
+    t2.start()
+    t2.join()
+    t1.join()
+    given_time+=datetime.timedelta(hours=1)
+    print("Arrival Rate=",jun.arrival_rate)
+    print("Service Rate=",jun.service_Rate)
+    jun.service_Rate=0
+    jun.arrival_rate=0
 

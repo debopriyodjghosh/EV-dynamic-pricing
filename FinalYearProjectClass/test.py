@@ -1,3 +1,4 @@
+from calendar import weekday
 from hashlib import new
 from pymongo import MongoClient
 '''import random
@@ -26,6 +27,11 @@ my_Collection=my_Db.Car
         "Price": "12"
         })'''
 my_Collection.delete_many({})
+
+weekday0=[0,1,0,0,0,1,0,1,0,0,0,0,0,1,0]
+weekday1=[0,1,0,0,0,1,0,0,0,0,1,0,0,0,0]
+weekday2=[0,1,0,0,0,0,0,0,0,0,1,0,0,0,0]
+print(weekday2[5])
 '''6239b052e4a2613ed1641a5d
 station_id
 :
