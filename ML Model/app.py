@@ -15,10 +15,11 @@ try:
     #print("Connected successfully!!!")
 except:  
     print("Could not connect to MongoDB")
+mydb = client.ElectricVehicle
 
 model=[]
 for i in range (1,11):
-   file='C://Users//Admin//Desktop//EV-dynamic-pricing//ML Model'+'JunModel'+str(i)+'.pkl'
+   file='F:\\xampp\\htdocs\\EV-dynamic-pricing\\ML_Model\\'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
 
@@ -39,31 +40,24 @@ if __name__=="__main__":
 def getprice():
     predictedLambda=getPredictedLambda()
     predictedSum=0
-    allprices=[]
     for predicted in predictedLambda:
         predictedSum = predictedSum + predicted
     for i in range(1,11):
+        id="jun"+str(i)+"_"+str(datetime.datetime.now().date)+str(datetime.datetime.now().hour)
         previousPrice=getPreviousPrice(i)
         optimalLambda=getLambdaOptimal(predictedSum,i)
         difference=predictedLambda[i] - optimalLambda
         nextPrice = previousPrice + getGamma()*difference
-        allprices.append(nextPrice)
-    #save to database this part needs to be change
-        # jun='jun'+str(i)
-        # dt = datetime.now()
-        # id= jun+"_"+str(dt.year)+str(dt.month)+str(dt.day)+str(dt.hour)
-        # mydb = client.EV
-        # mytab = mydb[jun]
-        
-        # rec = mytab.insert_one({
-        # "id" : id,
-        # "Arrival_rate" : 0,
-        # "Service_rate" : 0,
-        # "Previous_price" :0,
-        # "cur_price" : nextPrice,
-        # "time" : dt
-        # })
-    return jsonify(allprices)
+        collection_name = "jun_price" + str(i)
+        my_collection=mydb[collection_name]
+        my_collection.insert_one(
+            {
+                "id":id,
+                "date":datetime.datetime.now().date,
+                "time":datetime.datetime.now().hour,
+                "price":nextPrice
+            }
+        )
       
 def getPredictedLambda():
     #arr = np.array([[11,6,0,1,2015,11,2]])
@@ -95,10 +89,10 @@ def getLambdaOptimal(sum,i):
 
 # check this part again
 def getPreviousPrice(i):
-    a = "jun" + str(i)
-    mydb = client.EV
+    collection_name = "jun_price" + str(i)
+    my_collection=mydb[collection_name]
     #mytab = mydb.test
-    new=dict(mydb.a.find().limit(1).sort([('$natural', -1)]).next())
+    new=dict(my_collection.find().limit(1).sort([('$natural', -1)]).next())
     prevPrice=new['Previous_price']
     return prevPrice
 
@@ -110,19 +104,27 @@ def getGamma():
 def getServicerate():
     li=[]
     for i in range(1,11):
-        ports=getNumberofPorts()
+        ports=getNumberofPorts(i)
         chargetime=getchargeTime()
         serviceRate=(60/chargetime)*ports
         li.append(serviceRate)
 
     return li
 
-def getNumberofPorts():
+def getNumberofPorts(i):
+    collection_name = "jun" + str(i)
+    my_collection=mydb[collection_name]
+    result=dict(my_collection.find().limit(1))
+    return result['no_of_port']
     #   get from database
-    NumberofPorts=5 #change this
-    return NumberofPorts
+    #NumberofPorts=5 #change this
+    #return NumberofPorts
 
-def getchargeTime():
+def getchargeTime(i):
+    collection_name = "jun" + str(i)
+    my_collection=mydb[collection_name]
+    result=dict(my_collection.find().limit(1))
+    return result['charging_time']
     #   get from database
-    chargeTime=20 #change this
-    return chargeTime
+    #chargeTime=20 #change this
+    #return chargeTime

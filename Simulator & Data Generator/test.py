@@ -1,6 +1,14 @@
 from calendar import weekday
 from hashlib import new
 from pymongo import MongoClient
+import datetime
+import numpy as np
+
+curret_Time= datetime.datetime.now()
+curret_Time-=datetime.timedelta(minutes=curret_Time.minute,seconds=curret_Time.second)
+print (curret_Time)
+
+
 '''import random
 import pickle as pkl
 from uuid import uuid4
@@ -27,7 +35,65 @@ my_Collection=my_Db.Car
         "Price": "12"
         })'''
 my_Collection.delete_many({})
-
+t=datetime.datetime.now()
+t-=datetime.timedelta(hours=1)
+t-=datetime.timedelta(minutes=t.minute,seconds=t.second,microseconds=t.microsecond)
+my_Db.jun_price0.insert_one({
+    "id": 1,
+    "time": t,
+    "price": 12
+})
+my_Db.jun_price1.insert_one({
+    "id": 1,
+    "time": t,
+    "price": 12
+})
+my_Db.jun_price2.insert_one({
+    "id": 2,
+    "time": t,
+    "price": 14
+})
+my_Db.jun_price3.insert_one({
+    "id": 1,
+    "time": t,
+    "price": 20
+})
+my_Db.jun_price4.insert_one({
+    "id": 1,
+    "time": t,
+    "price": 12
+})
+my_Db.jun_price5.insert_one({
+    "id": 2,
+    "time": t,
+    "price": 14
+})
+my_Db.jun_price6.insert_one({
+    "id": 1,
+    "time": t,
+    "price": 20
+})
+my_Db.jun_price7.insert_one({
+    "id": 1,
+    "time": t,
+    "price": 12
+})
+my_Db.jun_price8.insert_one({
+    "id": 2,
+    "time": t,
+    "price": 14
+})
+my_Db.jun_price9.insert_one({
+    "id": 1,
+    "time": t,
+    "price": 20
+})
+dt = datetime.datetime.now()
+arr=np.array([[dt.day, dt.weekday, dt.hour, dt.month, dt.year, datetime.datetime.now().timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
+r=my_Db.jun_price1.find({"time":t+datetime.timedelta(hours=1)})
+for rr in r:
+    print(rr['price'])
+print("sdfsf")
 weekday0=[0,1,0,0,0,1,0,1,0,0,0,0,0,1,0]
 weekday1=[0,1,0,0,0,1,0,0,0,0,1,0,0,0,0]
 weekday2=[0,1,0,0,0,0,0,0,0,0,1,0,0,0,0]
@@ -106,3 +172,41 @@ stop_threads = True
 c.v=False
 t1.join()
 print('thread killed successfull')'''
+
+'''def start_grid(self,id,stop):
+        row=1
+        self.e_name="sheet"+str(id)
+        sheet = self.book.add_sheet(self.e_name)
+        while True:
+            if(stop()):
+                break
+            c=car.Car()
+            c_time=str(datetime.now())
+            sheet.write(row,0,id)
+            sheet.write(row, 1, c_time)
+            sheet.write(row, 2, c.reg_id)
+            sheet.write(row, 3, c.b_status)
+            time.sleep(random.randint(1,30))
+            print(row)
+            row+=1'''
+'''    def start(self):
+        self.book = Workbook()
+        power_grid = list()
+        t=list()
+        self.stop_threads=False
+        for i in range(10):
+            power_grid.append(pw.PowerGrid(i))
+            t.append(i)
+            t[i] = threading.Thread(target=power_grid[i].start_grid, args=(i,self.book,lambda : self.stop_threads))
+            #t2 = threading.Thread(target=self.start_grid, args=(2,self.book,lambda : self.stop_threads))
+            t[i].start()
+            #t2.start()
+        time.sleep(30)
+        for i in range(10):
+            self.stop_threads=True
+            t[i].join()
+            #t2.join()
+            e="data.xls"
+            self.book.save(e)
+s=Simulator()
+s.start()'''
