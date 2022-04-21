@@ -9,77 +9,57 @@ import numpy as np
 from pymongo import MongoClient
 import datetime,time
 
-#connect
-try:
-    client = MongoClient("mongodb://localhost:27017/")
-    #print("Connected successfully!!!")
-except:  
-    print("Could not connect to MongoDB")
-mydb = client.ElectricVehicle
 
-model=[]
-for i in range (1,11):
-   file='F:\\xampp\\htdocs\\EV-dynamic-pricing\\ML_Model\\'+'JunModel'+str(i)+'.pkl'
-   m1=pickle.load(open(file,'rb'))
-   model.append(m1)
-
-
-app = Flask(__name__)
-CORS(app)
-
-@app.route('/')
-def price():
-    while True:
-        getprice()
-        time.sleep(3600)
-    
-    
-if __name__=="__main__":
-    app.run(debug=True)
 
 def getprice():
     predictedLambda=getPredictedLambda()
     predictedSum=0
     for predicted in predictedLambda:
+        print("predicted")
+        print(predicted)
         predictedSum = predictedSum + predicted
     for i in range(1,11):
-        id="jun"+str(i)+"_"+str(datetime.datetime.now().date)+str(datetime.datetime.now().hour)
+        id="jun"+str(i)+"_"+str(datetime.datetime.now().date())+str(datetime.datetime.now().hour)
         previousPrice=getPreviousPrice(i)
         optimalLambda=getLambdaOptimal(predictedSum,i)
         difference=predictedLambda[i] - optimalLambda
+        print("optimal")
+        print(optimalLambda)
         nextPrice = previousPrice + getGamma()*difference
+        #print(nextPrice)
         collection_name = "jun_price" + str(i)
         my_collection=mydb[collection_name]
-        my_collection.insert_one(
+        '''my_collection.insert_one(
             {
                 "id":id,
-                "date":datetime.datetime.now().date,
+                "date":str(datetime.datetime.now().date()),
                 "time":datetime.datetime.now().hour,
-                "price":nextPrice
+                "price":0
             }
-        )
+        )'''
       
 def getPredictedLambda():
     #arr = np.array([[11,6,0,1,2015,11,2]])
     predicted=[]
+    predicted.append(0)
     for i in range(1,11):
-        dt = datetime.now()
-        arr=np.array([[dt.day, dt.weekday(), dt.hour, dt.month, dt.year, datetime.now().timetuple().tm_yday, datetime.utcnow().isocalendar()[1]]])
-        
+        dt = datetime.datetime.now()
+        arr=np.array([[dt.day, dt.weekday(), dt.hour, dt.month, dt.timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
         predict = model[i].predict(arr)
-        predicted.append(predict)
-        
+        predicted.append(predict)   
     return predicted 
 
 def getLambdaOptimal(sum,i):
     lambSum = sum
+    
     serviceRate=getServicerate()
+    #print(serviceRate)
     uppersum=0
     lowersum=0
-    for rate in serviceRate:
-        x = math.sqrt(serviceRate[i]*rate)-rate
+    for rate in range(1,11):
+        x = math.sqrt(serviceRate[i]*serviceRate[rate])-serviceRate[rate]
         uppersum = uppersum+x
-        lower=rate//serviceRate[i]
+        lower=serviceRate[rate]//serviceRate[i]
         lower=math.sqrt(lower)
         lowersum=lowersum+lower
     upper_side=lambSum+uppersum
@@ -93,7 +73,7 @@ def getPreviousPrice(i):
     my_collection=mydb[collection_name]
     #mytab = mydb.test
     new=dict(my_collection.find().limit(1).sort([('$natural', -1)]).next())
-    prevPrice=new['Previous_price']
+    prevPrice=new['price']
     return prevPrice
 
 def getGamma():
@@ -103,28 +83,53 @@ def getGamma():
 
 def getServicerate():
     li=[]
+    li.append(0)
     for i in range(1,11):
         ports=getNumberofPorts(i)
-        chargetime=getchargeTime()
+        chargetime=getchargeTime(i)
         serviceRate=(60/chargetime)*ports
         li.append(serviceRate)
 
     return li
 
 def getNumberofPorts(i):
+    no_of_port=0
     collection_name = "jun" + str(i)
     my_collection=mydb[collection_name]
-    result=dict(my_collection.find().limit(1))
-    return result['no_of_port']
+    result=my_collection.find().limit(1)
+    for r in result:
+        no_of_port=r['no_of_port']
+    return no_of_port
     #   get from database
     #NumberofPorts=5 #change this
     #return NumberofPorts
 
 def getchargeTime(i):
+    charging_time=0
     collection_name = "jun" + str(i)
     my_collection=mydb[collection_name]
-    result=dict(my_collection.find().limit(1))
-    return result['charging_time']
+    result=my_collection.find().limit(1)
+    for r in result:
+        charging_time=r['charging_time']
+    return charging_time
     #   get from database
     #chargeTime=20 #change this
     #return chargeTime
+
+
+#connect
+try:
+    client = MongoClient("mongodb://localhost:27017/")
+    #print("Connected successfully!!!")
+except:  
+    print("Could not connect to MongoDB")
+mydb = client.ElectricVehicle
+
+model=[]
+model.append(0)
+for i in range (1,11):
+   file='F://xampp//htdocs//EV-dynamic-pricing//ML_Model//'+'JunModel'+str(i)+'.pkl'
+   m1=pickle.load(open(file,'rb'))
+   model.append(m1)
+   print(file)
+getprice()

@@ -35,60 +35,68 @@ my_Collection=my_Db.Car
         "Price": "12"
         })'''
 my_Collection.delete_many({})
-t=datetime.datetime.now()
-t-=datetime.timedelta(hours=1)
-t-=datetime.timedelta(minutes=t.minute,seconds=t.second,microseconds=t.microsecond)
-my_Db.jun_price0.insert_one({
-    "id": 1,
-    "time": t,
-    "price": 12
+id=id=str(datetime.datetime.now().date)+str(datetime.datetime.now().hour)
+my_Db.jun_price10.insert_one({
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price1.insert_one({
-    "id": 1,
-    "time": t,
-    "price": 12
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price2.insert_one({
-    "id": 2,
-    "time": t,
-    "price": 14
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price3.insert_one({
-    "id": 1,
-    "time": t,
-    "price": 20
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price4.insert_one({
-    "id": 1,
-    "time": t,
-    "price": 12
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price5.insert_one({
-    "id": 2,
-    "time": t,
-    "price": 14
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price6.insert_one({
-    "id": 1,
-    "time": t,
-    "price": 20
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price7.insert_one({
-    "id": 1,
-    "time": t,
-    "price": 12
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price8.insert_one({
-    "id": 2,
-    "time": t,
-    "price": 14
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
 my_Db.jun_price9.insert_one({
-    "id": 1,
-    "time": t,
-    "price": 20
+    "id":id,
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "price":8
 })
-dt = datetime.datetime.now()
+'''dt = datetime.datetime.now()
 arr=np.array([[dt.day, dt.weekday, dt.hour, dt.month, dt.year, datetime.datetime.now().timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
 r=my_Db.jun_price1.find({"time":t+datetime.timedelta(hours=1)})
 for rr in r:
@@ -97,7 +105,7 @@ print("sdfsf")
 weekday0=[0,1,0,0,0,1,0,1,0,0,0,0,0,1,0]
 weekday1=[0,1,0,0,0,1,0,0,0,0,1,0,0,0,0]
 weekday2=[0,1,0,0,0,0,0,0,0,0,1,0,0,0,0]
-print(weekday2[5])
+print(weekday2[5])'''
 '''6239b052e4a2613ed1641a5d
 station_id
 :
