@@ -15,28 +15,25 @@ def getprice():
     predictedLambda=getPredictedLambda()
     predictedSum=0
     for predicted in predictedLambda:
-        print("predicted")
-        print(predicted)
+        print("predicted: "+str(predicted))
         predictedSum = predictedSum + predicted
     for i in range(1,11):
         id="jun"+str(i)+"_"+str(datetime.datetime.now().date())+str(datetime.datetime.now().hour)
         previousPrice=getPreviousPrice(i)
         optimalLambda=getLambdaOptimal(predictedSum,i)
         difference=predictedLambda[i] - optimalLambda
-        print("optimal")
-        print(optimalLambda)
         nextPrice = previousPrice + getGamma()*difference
-        #print(nextPrice)
+        print(nextPrice[0])
         collection_name = "jun_price" + str(i)
         my_collection=mydb[collection_name]
-        '''my_collection.insert_one(
+        my_collection.insert_one(
             {
                 "id":id,
                 "date":str(datetime.datetime.now().date()),
                 "time":datetime.datetime.now().hour,
-                "price":0
+                "price":nextPrice[0]
             }
-        )'''
+        )
       
 def getPredictedLambda():
     #arr = np.array([[11,6,0,1,2015,11,2]])
@@ -50,8 +47,7 @@ def getPredictedLambda():
     return predicted 
 
 def getLambdaOptimal(sum,i):
-    lambSum = sum
-    
+    lambSum = sum[0]
     serviceRate=getServicerate()
     #print(serviceRate)
     uppersum=0
@@ -59,11 +55,12 @@ def getLambdaOptimal(sum,i):
     for rate in range(1,11):
         x = math.sqrt(serviceRate[i]*serviceRate[rate])-serviceRate[rate]
         uppersum = uppersum+x
-        lower=serviceRate[rate]//serviceRate[i]
+        lower=serviceRate[rate]/serviceRate[i]
         lower=math.sqrt(lower)
         lowersum=lowersum+lower
     upper_side=lambSum+uppersum
-    lambdaOptimal=upper_side//lowersum
+    lambdaOptimal=upper_side/lowersum
+    print("optimal: "+str(lambdaOptimal))
     return lambdaOptimal
 
 
@@ -74,10 +71,11 @@ def getPreviousPrice(i):
     #mytab = mydb.test
     new=dict(my_collection.find().limit(1).sort([('$natural', -1)]).next())
     prevPrice=new['price']
+    print("previous: "+str(prevPrice))
     return prevPrice
 
 def getGamma():
-    gamma = 0.5
+    gamma = 1/10.0
     return gamma
 
 
@@ -131,5 +129,6 @@ for i in range (1,11):
    file='F://xampp//htdocs//EV-dynamic-pricing//ML_Model//'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
-   print(file)
-getprice()
+while(True):
+    getprice()
+    time.sleep(3600)
