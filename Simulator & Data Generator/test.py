@@ -36,6 +36,47 @@ my_Collection=my_Db.Car
         })'''
 my_Collection.delete_many({})
 id=id=str(datetime.datetime.now().date)+str(datetime.datetime.now().hour)
+my_Db.jun1.insert_one({
+    "no_of_port":13,
+    "charging_time":20
+})
+my_Db.jun2.insert_one({
+    "no_of_port":10,
+    "charging_time":25
+})
+my_Db.jun3.insert_one({
+    "no_of_port":14,
+    "charging_time":20
+})
+my_Db.jun4.insert_one({
+    "no_of_port":5,
+    "charging_time":25
+})
+my_Db.jun5.insert_one({
+    "no_of_port":7,
+    "charging_time":20
+})
+my_Db.jun6.insert_one({
+    "no_of_port":3,
+    "charging_time":30
+})
+my_Db.jun7.insert_one({
+    "no_of_port":7,
+    "charging_time":30
+})
+my_Db.jun8.insert_one({
+    "no_of_port":7,
+    "charging_time":30
+})
+my_Db.jun9.insert_one({
+    "no_of_port":7,
+    "charging_time":25
+})
+my_Db.jun10.insert_one({
+    "no_of_port":4,
+    "charging_time":30
+})
+
 my_Db.jun_price10.insert_one({
     "id":id,
     "date":str(datetime.datetime.now().date()),

@@ -69,6 +69,7 @@ def getPreviousPrice(i):
     collection_name = "jun_price" + str(i)
     my_collection=mydb[collection_name]
     #mytab = mydb.test
+    #letest price fetch
     new=dict(my_collection.find().limit(1).sort([('$natural', -1)]).next())
     prevPrice=new['price']
     print("previous: "+str(prevPrice))
