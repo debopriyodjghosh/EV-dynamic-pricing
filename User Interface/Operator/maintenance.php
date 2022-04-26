@@ -18,7 +18,7 @@
                     </div>
                     <div class="h-100 overflow-auto border rounded-1 border-dark">
                         <ul class="list-group">
-                            <?php 
+                            <?php
                             $cat_qry = $conn->query("SELECT * FROM `petrol_type_list` order by `name` asc");
                             while($row = $cat_qry->fetchArray()):
                             ?>
@@ -27,7 +27,7 @@
                                     <?php echo $row['name'] ?> <small><span class="text-muted">Current Price: </span><?php echo number_format($row['price'],2) ?></small>
                                 </div>
                                 <div class="col-2 pe-2 text-end">
-                                    <?php 
+                                    <?php
                                         if(isset($row['status']) && $row['status'] == 1){
                                             echo "<small><span class='badge rounded-pill bg-success'>Active</span></small>";
                                         }else{
@@ -48,6 +48,13 @@
                         </ul>
                     </div>
                 </div>
+<!-- connect price -->
+            <div class="col-md-6 h-100 d-flex flex-column">
+              <a>price</a>
+              <script>
+              var a =
+              </script>
+            </div>
             </div>
         </div>
     </div>
@@ -90,5 +97,5 @@
             }
         })
     }
-   
+
 </script>
