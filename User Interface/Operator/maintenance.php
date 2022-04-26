@@ -50,7 +50,22 @@
                 </div>
 <!-- connect price -->
             <div class="col-md-6 h-100 d-flex flex-column">
-              <a>price</a>
+              <!-- <a>price</a> -->
+              <!-- <button class="btn-btn-small-warning" type="submit">Fetch price</button> -->
+              <!-- <div class="col-md-6 h-150 d-flex flex-column">
+              <button type="button" class="btn btn-warning">Fetch price</button>
+              <label></label>
+            </div> -->
+            <div class="card">
+  <div class="card-header">
+    Featured
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Price Now</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <a href="#" class="btn btn-primary">Fetch Price</a>
+  </div>
+</div>
               <script>
               var a =
               </script>
