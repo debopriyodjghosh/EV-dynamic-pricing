@@ -44,7 +44,7 @@ $prev = $collection->find();
                     <div class="w-100 d-flex border-bottom border-dark py-1 mb-1">
                         <div class="fs-5 col-auto flex-grow-1"><b>Charging Type List</b></div>
                         <div class="col-auto flex-grow-0 d-flex justify-content-end">
-                            <a href="javascript:void(0)" id="new_petrol_type" class="btn btn-dark btn-sm bg-gradient rounded-2" title="Add Pertol Type"><span class="fa fa-plus"></span></a>
+                            <a href="javascript:void(0)" id="new_petrol_type" class="btn btn-dark btn-sm bg-gradient rounded-2" title="Add Charging Type"><span class="fa fa-plus"></span></a>
                         </div>
                     </div>
                     <div class="h-100 overflow-auto border rounded-1 border-dark">
@@ -67,9 +67,9 @@ $prev = $collection->find();
                                     ?>
                                 </div>
                                 <div class="col-2 d-flex justify-content-end">
-                                    <a href="javascript:void(0)" class="view_petrol_type btn btn-sm btn-info text-light bg-gradient py-0 px-1 me-1" title="View Pertol Type Details" data-id="<?php echo $row['petrol_type_id'] ?>" ><span class="fa fa-th-list"></span></a>
-                                    <a href="javascript:void(0)" class="edit_petrol_type btn btn-sm btn-primary bg-gradient py-0 px-1 me-1" title="Edit Pertol Type Details" data-id="<?php echo $row['petrol_type_id'] ?>"  data-name="<?php echo $row['name'] ?>"><span class="fa fa-edit"></span></a>
-                                    <a href="javascript:void(0)" class="delete_petrol_type btn btn-sm btn-danger bg-gradient py-0 px-1" title="Delete Pertol Type" data-id="<?php echo $row['petrol_type_id'] ?>"  data-name="<?php echo $row['name'] ?>"><span class="fa fa-trash"></span></a>
+                                    <a href="javascript:void(0)" class="view_petrol_type btn btn-sm btn-info text-light bg-gradient py-0 px-1 me-1" title="View Charging Type Details" data-id="<?php echo $row['petrol_type_id'] ?>" ><span class="fa fa-th-list"></span></a>
+                                    <a href="javascript:void(0)" class="edit_petrol_type btn btn-sm btn-primary bg-gradient py-0 px-1 me-1" title="Edit Charging Type Details" data-id="<?php echo $row['petrol_type_id'] ?>"  data-name="<?php echo $row['name'] ?>"><span class="fa fa-edit"></span></a>
+                                    <a href="javascript:void(0)" class="delete_petrol_type btn btn-sm btn-danger bg-gradient py-0 px-1" title="Delete Charging Type" data-id="<?php echo $row['petrol_type_id'] ?>"  data-name="<?php echo $row['name'] ?>"><span class="fa fa-trash"></span></a>
                                 </div>
                             </li>
                             <?php endwhile; ?>
@@ -108,8 +108,10 @@ $prev = $collection->find();
     <p class="card-text">
         <?php 
     foreach ($prev as $document) {
+        echo $document["date"] ;
+        echo " : ";
         echo $document["time"] ;
-        echo " - ";
+        echo " > ";
         echo $document["price"] ;
         echo nl2br("\n");
         //echo " ";
