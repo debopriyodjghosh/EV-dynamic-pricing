@@ -25,7 +25,7 @@
         <div class="w-100 h-100 mx-0 row row-cols-2 bg-dark">
             <div class="col-8 h-100 pb-2 d-flex flex-column">
                 <div>
-                    <h3 class="text-light">Please Charging Below</h3>
+                    <h3 class="text-light">Generate Charging Price</h3>
                 </div>
                 <div class="flex-grow-1 d-flex flex-column bg-light bg-opacity-50">
                     <div class="form-group py-2 d-flex border-bottom col-auto pb-1">
@@ -74,7 +74,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="liter" class="control-label fw-bold text-light">Liter</label>
+                            <label for="liter" class="control-label fw-bold text-light">Unit</label>
                             <input type="number" value="0" step="any" name="liter" id="liter" class="form-control form-control-sm rounded-0 text-end" required>
                         </div>
                         <div class="form-group">

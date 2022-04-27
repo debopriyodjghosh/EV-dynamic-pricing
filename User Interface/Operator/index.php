@@ -131,7 +131,7 @@ if($_SESSION['type'] != 1 && in_array($page,array('maintenance','products','stoc
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary bg-gradient" id="topNavBar">
         <div class="container">
             <a class="navbar-brand" href="./">
-            Charging Station
+            Charging Station Operator
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -166,17 +166,19 @@ if($_SESSION['type'] != 1 && in_array($page,array('maintenance','products','stoc
                     
                 </ul>
             </div>
-            <div>
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle bg-transparent  text-light border-0" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Hello <?php echo $_SESSION['fullname'] ?>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <!-- <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                     <li><a class="dropdown-item" href="./?page=manage_account">Manage Account</a></li>
                     <li><a class="dropdown-item" href="./Actions.php?a=logout">Logout</a></li>
-                </ul>
+                </ul> -->
             </div>
+            <div>
+            <a class="btn btn-warning" href="./Actions.php?a=logout">Logout</a>
             </div>
+            
         </div>
     </nav>
     <div class="container py-3" id="page-container">
