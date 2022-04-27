@@ -1,4 +1,35 @@
+<?php
+require 'vendor/autoload.php';
+   // connect to mongodb
+   //echo "Connection to EV database successfully";
+   // select a database
+   //$db = $m->ElectricVehicle;
+   //echo "Database mydb selected";
 
+// $collection = $db->jun_price1;
+// $query = ['time' => '12' ];
+// $updateResult = $collection->findOne($query);
+// echo $updateResult;
+//foreach ($cursor as $document) {
+// $cursor = $collection->find().limit(1).sort'({'$natural:-1'})';
+
+$m = new MongoDB\Client;
+$server = "mongodb://localhost:27017";
+try{// Connecting to server
+$c = new MongoDB\Client($server);}
+catch(MongoConnectionException $connectionException){
+print $connectionException;
+exit;}
+$db = $c->ElectricVehicle;
+$collection = $db->jun_price2;
+$cursor= $collection->findOne([],['sort' => ['price' => -1],'projection' => ['price' => 1]]);
+$prev = $collection->find();
+        
+
+//echo $cursor["price"];
+
+
+?>
 <div class="card h-100 d-flex flex-column">
     <div class="card-header d-flex justify-content-between">
         <h3 class="card-title">Maintenance</h3>
@@ -58,17 +89,36 @@
             </div> -->
             <div class="card">
   <div class="card-header">
-    Featured
+    Dynamic Price of EV Charging
   </div>
   <div class="card-body">
     <h5 class="card-title">Price Now</h5>
-    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-    <a href="#" class="btn btn-primary">Fetch Price</a>
+    <p class="card-text"><?php echo $cursor["price"] ?></p>
+    <a href="#" onClick="window.location.reload();" class="btn btn-primary">Fetch Price</a>
+
   </div>
 </div>
-              <script>
-              var a =
-              </script>
+<br>
+<div class="card">
+  <div class="card-header">
+    Dynamic Price of EV Charging
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Previous Price</h5>
+    <p class="card-text">
+        <?php 
+    foreach ($prev as $document) {
+        echo $document["time"] ;
+        echo " - ";
+        echo $document["price"] ;
+        echo nl2br("\n");
+        //echo " ";
+        }
+    ?>
+        </p>
+  </div>
+</div>
+              
             </div>
             </div>
         </div>
