@@ -7,9 +7,114 @@ import pickle
 from flask_cors import CORS
 import numpy as np
 from pymongo import MongoClient
-import datetime
-import time
- 
+import datetime,time
+
+
+
+def getprice():
+    predictedLambda=getPredictedLambda()
+    predictedSum=0
+    for predicted in predictedLambda:
+        print("predicted: "+str(predicted))
+        predictedSum = predictedSum + predicted
+    for i in range(1,11):
+        id="jun"+str(i)+"_"+str(datetime.datetime.now().date())+str(datetime.datetime.now().hour)
+        previousPrice=getPreviousPrice(i)
+        optimalLambda=getLambdaOptimal(predictedSum,i)
+        difference=predictedLambda[i] - optimalLambda
+        nextPrice = previousPrice + getGamma()*difference
+        print(nextPrice[0])
+        collection_name = "jun_price" + str(i)
+        my_collection=mydb[collection_name]
+        my_collection.insert_one(
+            {
+                "id":id,
+                "date":str(datetime.datetime.now().date()),
+                "time":datetime.datetime.now().hour,
+                "price":nextPrice[0]
+            }
+        )
+      
+def getPredictedLambda():
+    #arr = np.array([[11,6,0,1,2015,11,2]])
+    predicted=[]
+    predicted.append(0)
+    for i in range(1,11):
+        dt = datetime.datetime.now()
+        arr=np.array([[dt.day, dt.weekday(), dt.hour, dt.month, dt.timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
+        predict = model[i].predict(arr)
+        predicted.append(predict)   
+    return predicted 
+
+def getLambdaOptimal(sum,i):
+    lambSum = sum[0]
+    serviceRate=getServicerate()
+    #print(serviceRate)
+    uppersum=0
+    lowersum=0
+    for rate in range(1,11):
+        x = math.sqrt(serviceRate[i]*serviceRate[rate])-serviceRate[rate]
+        uppersum = uppersum+x
+        lower=serviceRate[rate]/serviceRate[i]
+        lower=math.sqrt(lower)
+        lowersum=lowersum+lower
+    upper_side=lambSum+uppersum
+    lambdaOptimal=upper_side/lowersum
+    print("optimal: "+str(lambdaOptimal))
+    return lambdaOptimal
+
+
+# check this part again
+def getPreviousPrice(i):
+    collection_name = "jun_price" + str(i)
+    my_collection=mydb[collection_name]
+    #mytab = mydb.test
+    #letest price fetch
+    new=dict(my_collection.find().limit(1).sort([('$natural', -1)]).next())
+    prevPrice=new['price']
+    print("previous: "+str(prevPrice))
+    return prevPrice
+
+def getGamma():
+    gamma = 1/10.0
+    return gamma
+
+
+def getServicerate():
+    li=[]
+    li.append(0)
+    for i in range(1,11):
+        ports=getNumberofPorts(i)
+        chargetime=getchargeTime(i)
+        serviceRate=(60/chargetime)*ports
+        li.append(serviceRate)
+
+    return li
+
+def getNumberofPorts(i):
+    no_of_port=0
+    collection_name = "jun" + str(i)
+    my_collection=mydb[collection_name]
+    result=my_collection.find().limit(1)
+    for r in result:
+        no_of_port=r['no_of_port']
+    return no_of_port
+    #   get from database
+    #NumberofPorts=5 #change this
+    #return NumberofPorts
+
+def getchargeTime(i):
+    charging_time=0
+    collection_name = "jun" + str(i)
+    my_collection=mydb[collection_name]
+    result=my_collection.find().limit(1)
+    for r in result:
+        charging_time=r['charging_time']
+    return charging_time
+    #   get from database
+    #chargeTime=20 #change this
+    #return chargeTime
+
 
 #connect
 try:
@@ -17,130 +122,14 @@ try:
     #print("Connected successfully!!!")
 except:  
     print("Could not connect to MongoDB")
+mydb = client.ElectricVehicle
 
 model=[]
+model.append(0)
 for i in range (1,11):
-   file='F:\\xampp\\htdocs\\EV-dynamic-pricing\\ML_Model\\'+'JunModel'+str(i)+'.pkl'
+   file='F://xampp//htdocs//EV-dynamic-pricing//ML_Model//'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
-
-
-app = Flask(__name__)
-CORS(app)
-
-@app.route('/')
-def price():
-    while True:
-        getprice(datetime.datetime.now,33,21)
-        time.sleep(60)
-    
-    
-if __name__=="__main__":
-    app.run(debug=True)
-
-def getprice(p_time,Sumoflambda,Servicerate):
-    for i in range(1,11):
-        pre=p_time-datetime.timedelta(hours=1)
-        previousPrice=getPreviousPrice(i,pre)
-        optimalLambda=getLambdaOptimal(i,p_time,Sumoflambda,Servicerate)
-        predictedLambda=getPredictedLambda(i)
-        difference=predictedLambda-optimalLambda
-        nextPrice = previousPrice + getGamma()*difference
-    #save to database
-        jun='jun_price'+str(i)
-        dt = datetime.now()
-        id= jun+"_"+str(dt.year)+str(dt.month)+str(dt.day)+str(dt.hour)
-        mydb = client.EV
-        mytab = mydb[jun]
-        rec=mytab.insert_one(
-            {
-                "id":id,
-                "time":p_time,
-                "price":nextPrice
-            }
-        )
-        print("nextPrice of "+str(i)+" --> "+str(nextPrice))
-
-        '''rec = mytab.insert_one({
-        "id" : id,
-        "Arrival_rate" : 0,
-        "Service_rate" : 0,
-        "Previous_price" :0,
-        "cur_price" : nextPrice,
-        "time" : dt
-        })'''
-    
-        #return jsonify(nextPrice)
-        #fuck previous price
-        #fuck Arrival rate
-
-def getLambdaOptimal(i,p_time,Sumoflambda,Servicerate):
-    lambSum = Sumoflambda
-    serviceRate=Servicerate
-    sum=0
-    lowersum=0
-    for rate in serviceRate:
-        x = math.sqrt(serviceRate[i]*rate)-rate
-        sum = sum+x
-        lower=rate//serviceRate[i]
-        lower=math.sqrt(lower)
-        lowersum=lowersum+lower
-    upper_side=lambSum+sum
-    lambdaOptimal=upper_side//lowersum
-    return lambdaOptimal
-
-def getPredictedLambda(i):
-    #arr = np.array([[11,6,0,1,2015,11,2]])
-    dt = datetime.datetime.now()
-    arr=np.array([[dt.day, dt.weekday, dt.hour, dt.month, dt.year, dt.timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
-    predicted = model[i].predict(arr)
-    predicted = float(predicted)
-    return predicted 
-
-
-def getPreviousPrice(i,t):
-    a="jun_price"+str(i)
-    mydb=client.ElectricVehicle
-    result=mydb.a.find({"time":t})
-    for r in result:
-        return r['price']
-    """#a = "jun" + str(i)
-    a = "jun_price" + str(i)
-    mydb = client.EV
-    #mytab = mydb.test
-    new=dict(mydb.a.find().limit(1).sort([('$natural', -1)]).next())
-    prevPrice=new['Previous_price']
-    #print(new['Previous_price'])
-    #prices = [ 10,11,12,13,14,15]
-    #prevPrice = random.choice(prices)"""
-
-    return 30
-#done already
-def getGamma():
-    gamma = 0.5
-    return gamma
-#done
-def getSumoflambda():
-    sum=0
-    for i in range(1,11):
-        jun='jun'+str(i)
-        mydb = client.EV
-        mytab = mydb[jun]
-        new=dict(mydb[jun].find().limit(1).sort([('$natural', -1)]).next())
-
-        sum=sum+new['Arrival_rate']
-
-    return sum
-#done
-def getServicerate():
-    li=[]
-    for i in range(1,11):
-        jun='jun'+str(i)
-        mydb = client.EV
-        mytab = mydb[jun]
-        new=dict(mydb[jun].find().limit(1).sort([('$natural', -1)]).next())
-        print(new['Service_rate'])
-        li.append(new['Service_rate'])
-
-    return li
-   
+while(True):
+    getprice()
+    time.sleep(2)
