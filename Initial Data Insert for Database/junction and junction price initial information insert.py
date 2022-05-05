@@ -35,49 +35,161 @@ my_Collection=my_Db.Car
         "Price": "12"
         })'''
 my_Collection.delete_many({})
+for i in range(10):
+    my_Db['jun'+str(i)].delete_many({})
 id=id=str(datetime.datetime.now().date)+str(datetime.datetime.now().hour)
+my_Db.jun0.insert_one({
+    "id":0,
+    "Name": "Station1",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":10,
+    "status":"available",
+    "icon":"greenIcon",
+    "no_of_port":10,
+    "charging_time":20,
+    "price":8
+})
 my_Db.jun1.insert_one({
-    "no_of_port":13,
-    "charging_time":20
+    "id":1,
+    "Name": "Station2",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":10,
+    "status":"available",
+    "icon":"greenIcon",
+    "no_of_port":10,
+    "charging_time":25,
+    "price":8
 })
 my_Db.jun2.insert_one({
+    "id":2,
+    "Name": "Station3",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":10,
+    "status":"available",
+    "icon":"greenIcon",
     "no_of_port":10,
-    "charging_time":25
+    "charging_time":20,
+    "price":8
 })
 my_Db.jun3.insert_one({
-    "no_of_port":14,
-    "charging_time":20
+    "id":3,
+    "Name": "Station4",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":5,
+    "status":"available",
+    "icon":"greenIcon",
+    "no_of_port":5,
+    "charging_time":25,
+    "price":8
 })
 my_Db.jun4.insert_one({
-    "no_of_port":5,
-    "charging_time":25
+    "id":4,
+    "Name": "Station5",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":7,
+    "status":"available",
+    "icon":"greenIcon",
+    "no_of_port":7,
+    "charging_time":20,
+    "price":8
 })
 my_Db.jun5.insert_one({
-    "no_of_port":7,
-    "charging_time":20
+    "id":5,
+    "Name": "Station6",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":3,
+    "status":"available",
+    "icon":"greenIcon",
+    "no_of_port":3,
+    "charging_time":30,
+    "price":8
 })
 my_Db.jun6.insert_one({
-    "no_of_port":3,
-    "charging_time":30
+    "id":6,
+    "Name": "Station7",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":7,
+    "status":"available",
+    "icon":"greenIcon",
+    "no_of_port":7,
+    "charging_time":30,
+    "price":8
 })
 my_Db.jun7.insert_one({
+    "id":7,
+    "Name": "Station8",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":7,
+    "status":"available",
+    "icon":"greenIcon",
     "no_of_port":7,
-    "charging_time":30
+    "charging_time":30,
+    "price":8
 })
 my_Db.jun8.insert_one({
+    "id":8,
+    "Name": "Station9",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":7,
+    "status":"available",
+    "icon":"greenIcon",
     "no_of_port":7,
-    "charging_time":30
+    "charging_time":25,
+    "price":8
 })
 my_Db.jun9.insert_one({
-    "no_of_port":7,
-    "charging_time":25
-})
-my_Db.jun10.insert_one({
+    "id":9,
+    "Name": "Station10",
+    "lat": "",
+    "long":"",
+    "location":"",
+    "date":str(datetime.datetime.now().date()),
+    "time":datetime.datetime.now().hour,
+    "no_of_port_available":4,
+    "status":"available",
+    "icon":"greenIcon",
     "no_of_port":4,
-    "charging_time":30
+    "charging_time":30,
+    "price":8
 })
 
-my_Db.jun_price10.insert_one({
+'''my_Db.jun_price10.insert_one({
     "id":id,
     "date":str(datetime.datetime.now().date()),
     "time":datetime.datetime.now().hour,
@@ -136,7 +248,7 @@ my_Db.jun_price9.insert_one({
     "date":str(datetime.datetime.now().date()),
     "time":datetime.datetime.now().hour,
     "price":8
-})
+})'''
 '''dt = datetime.datetime.now()
 arr=np.array([[dt.day, dt.weekday, dt.hour, dt.month, dt.year, datetime.datetime.now().timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
 r=my_Db.jun_price1.find({"time":t+datetime.timedelta(hours=1)})

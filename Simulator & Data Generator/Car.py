@@ -12,7 +12,7 @@ class Car:
     charge_status=None
 
     #constructtor
-    def __init__(self,arr_Time,charge_status):
+    def __init__(self,arr_Time,c_time,charge_status):
         self.reg_id=random.randint(1,1000)
         self.arr_Time=arr_Time
         self.b_status=random.randint(1,75)
@@ -22,12 +22,12 @@ class Car:
         else:
             self.need_charge=random.randint((self.b_status+1),100)-self.b_status
         if(self.charge_status=="Charging"):
-            self.Set_Dispatch_Time_And_Charging_Start_Time(arr_Time)
+            self.Set_Dispatch_Time_And_Charging_Start_Time(arr_Time,c_time)
     
     #Set Dispatch Time and Charging Starting Time
-    def Set_Dispatch_Time_And_Charging_Start_Time(self,charge_Start_Time):
+    def Set_Dispatch_Time_And_Charging_Start_Time(self,charge_Start_Time,c_time):
         self.charge_Start_Time=charge_Start_Time
-        self.dis_Time=self.charge_Start_Time+datetime.timedelta(seconds=(.5*self.need_charge*60))
+        self.dis_Time=self.charge_Start_Time+datetime.timedelta(seconds=((c_time/100)*self.need_charge*60))
 
     #Return Registration Id
     def r_reg_id(self):
