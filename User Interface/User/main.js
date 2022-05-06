@@ -154,7 +154,7 @@ navigator.geolocation.getCurrentPosition(position => {
             dlan = parseFloat(data[i].lng);
             lat = latitude;
             long = longitude;
-            //console.log(dlat, dlan);
+            console.log(dlat, dlan);
 
         }
     }

@@ -1,9 +1,9 @@
 import threading
 import Car as car
-import Charging_Station as pw
+#import Charging_Station as pw
 from datetime import datetime
 import time
-import random
+#import random
 import random
 import datetime
 import Car as Car
@@ -270,14 +270,14 @@ try:
 except:  
     print("Could not connect to MongoDB")
 my_Db=client.ElectricVehicle
-my_Collection1=my_Db.Car
+my_Collection1=my_Db.car
 
 
 """load the machine Learning Model"""
 model=[]
 model.append(0)
 for i in range (1,11):
-   file='F://xampp//htdocs//EV-dynamic-pricing//ML_Model//'+'JunModel'+str(i)+'.pkl'
+   file='C:/xampp/htdocs/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
 

@@ -21,7 +21,7 @@ catch(MongoConnectionException $connectionException){
 print $connectionException;
 exit;}
 $db = $c->ElectricVehicle;
-$collection = $db->jun_price2;
+$collection = $db->jun0;
 $cursor= $collection->findOne([],['sort' => ['price' => -1],'projection' => ['price' => 1]]);
 $prev = $collection->find();
         
