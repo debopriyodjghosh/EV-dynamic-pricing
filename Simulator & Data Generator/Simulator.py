@@ -369,7 +369,7 @@ rand_List=[[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,0,
 
 
 """Data Genarator Loop Count Hour"""
-for j in range(1):
+while True:
 
     '''"""Object of Thread Class"""
     th=t()'''

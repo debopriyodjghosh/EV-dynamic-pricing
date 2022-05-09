@@ -20,6 +20,7 @@
             data:{data:9},
             url: "cargraphCharging.php",
             success: function (response) {
+                console.log(response);
                 dt=parseInt(response);
             }
              });
@@ -39,14 +40,17 @@
              });
              return dt;
             }
-
+            var layout = {
+            title: "Charging Cars vs Waiting Cars"
+            };
             Plotly.plot('chart', [{
                 y: [getData()],
-                type: 'line'
+                type: 'line',
+
             }, {
                 y: [getanother()],
-                type: 'line'
-            }]);
+                type: 'line',
+            }],layout);
 
             var cnt = 0;
 

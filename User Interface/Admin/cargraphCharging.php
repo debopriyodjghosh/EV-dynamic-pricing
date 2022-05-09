@@ -1,5 +1,5 @@
 <?php require 'vendor/autoload.php';
- $dt = $_POST['data'];
+ $dt =(int) $_POST['data'];
 $server = "mongodb://localhost:27017";
 try{// Connecting to server
 $c = new MongoDB\Client($server);}
@@ -8,7 +8,6 @@ print $connectionException;
 exit;}
 $db = $c->ElectricVehicle;
 $collection = $db->car;
-
 $result=$collection->find(array("charge_status"=>"Charging","station_id"=>$dt));
 $data=array();
 foreach($result as $r){
