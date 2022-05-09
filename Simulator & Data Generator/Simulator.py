@@ -95,10 +95,10 @@ def arrival_Thread(charging_station,thread_object,rand_List,starting_Time,my_Col
         """wait for other thread Completion of the minute"""
         while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
             continue
-        time.sleep(.5)
+        time.sleep(1.5)
         
         
-        print(str(charging_station.no_Of_Ports_Available)+"*****")
+        print(str(charging_station.id)+" -> "+str(charging_station.no_Of_Ports_Available)+"*****"+str(charging_station.no_Of_Ports))
         i+=1
 
 
@@ -116,7 +116,7 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
                 current_Time=current_Time+datetime.timedelta(minutes=1)
 
                 """search the cars that are need to dispatch at the minute"""
-                dispatch_Result=my_Collection1.find({"station_id":jun.id,"charge_status":"Charging","dis_Time":{ '$gte':current_Time+datetime.timedelta(seconds=-1), '$lt':(current_Time+datetime.timedelta(minutes=1)) }})
+                dispatch_Result=my_Collection1.find({"station_id":charging_station.id,"charge_status":"Charging","dis_Time":{ '$gte':current_Time+datetime.timedelta(seconds=-1), '$lt':(current_Time+datetime.timedelta(minutes=1)) }})
                 
                 """update the database with sa=tatus charging to Finish"""
                 for dispatch_information in dispatch_Result:
@@ -136,7 +136,7 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
 
 
                     """after dispatchng check any cars are in waiting stage then start Charging them"""
-                    wait_Result=my_Collection1.find({"charge_status":"Wait","station_id":jun.id}).limit(1).sort("arr_Time",1)
+                    wait_Result=my_Collection1.find({"charge_status":"Wait","station_id":charging_station.id}).limit(1).sort("arr_Time",1)
                     for wait_information in wait_Result:
                         print("wait to charging")
                         print(wait_information)
@@ -157,8 +157,8 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
                 thread_object.thread_synchronize_dis=False
                 while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
                     continue
-                time.sleep(.5)
-                print(str(charging_station.no_Of_Ports_Available)+"+++++")
+                time.sleep(1.5)
+                print(str(charging_station.id)+" -> "+str(charging_station.no_Of_Ports_Available)+"+++++"+str(charging_station.no_Of_Ports))
                 i+=1
 
 
@@ -263,6 +263,81 @@ def getchargeTime(i):
     return charging_time
 
 
+def trying(given_time,i):
+    """Object of Thread Class"""
+    th=t()
+    """Station name According to MongoDb"""
+    station="jun"+str(i)
+
+    """MongoDb Station Collection Selection"""
+    mytab=my_Db[station]
+
+    """Fetch last data enter in MongoDb For Collectect Previous Information"""
+    output=dict(mytab.find().limit(1).sort([('$natural', -1)]).next())
+
+    """Create Charging Station Object"""
+    jun=cs.Charging_Station(output['id'],output['no_of_port'],output['no_of_port_available'],starting_Time.hour,starting_Time.hour+1)
+    
+    """Status of current situation of the Station"""
+    status = "available" if jun.no_Of_Ports_Available!=0 else "occupied"
+    icon= "greenIcon" if jun.no_Of_Ports_Available!=0 else "redIcon"
+
+
+    """predict the price"""
+    price=getprice(given_time)
+
+    """Insert New Time Data to the Charging Station"""
+    mytab.insert_one({
+                        "id":i,
+                        "Name": "Station"+str(i),
+                        "lat": "",
+                        "long":"",
+                        "location":"",
+                        "date":str(given_time.date()),
+                        "time":given_time.hour,
+                        "no_of_port_available":jun.no_Of_Ports_Available,
+                        "status": status,
+                        "icon":icon,
+                        "no_of_port":jun.no_Of_Ports,
+                        "charging_time":output['charging_time'],
+                        "price":price
+                    })
+    
+    """Select How many data will genarate Now according to the Time"""
+    h=int(given_time.hour/4)
+    print(rand_List[h])
+    
+    """Call the Thread for Genarting Car"""
+    t1 = threading.Thread(target = arrival_Thread, args=(jun,th,rand_List[h],given_time,my_Collection1,mytab,output['charging_time']))
+    t2= threading.Thread(target = Dispatch_Thread,args=(jun,th,given_time,my_Collection1,mytab,output['charging_time']))
+    t1.start()
+    t2.start()
+    t2.join()
+    t1.join()
+
+    """After 1 hour Print the Arrival rate & Service rate"""
+    print("Arrival Rate=",jun.arrival_rate)
+    print("Service Rate=",jun.service_Rate)
+
+    """Count the current Queue Size"""
+    queue_Size=my_Collection1.count_documents({"charge_status":{"$in":["Charging","Wait"]},"station_id":jun.id})
+    print("queue size"+str(queue_Size))
+    
+    """update data to CSV File"""
+    row=[given_time,i+1,jun.arrival_rate,jun.id]
+    csvfilename="Simulator & Data Generator/jun"+str(i)+".csv"
+    with open(csvfilename, 'a') as f_object:
+        writer_object = writer(f_object)
+        writer_object.writerow(row)
+        f_object.close()
+
+
+    """Initialize Arrival & service Rate For next Ittaration"""
+    jun.service_Rate=0
+    jun.arrival_rate=0
+
+
+
 """MongoDb Connection"""
 try:
     client = pymongo.MongoClient("mongodb://localhost:27017/")
@@ -277,7 +352,7 @@ my_Collection1=my_Db.car
 model=[]
 model.append(0)
 for i in range (1,11):
-   file='C:/xampp/htdocs/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
+   file='F:/xampp/htdocs/EV-dynamic-pricing/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
 
@@ -294,13 +369,18 @@ rand_List=[[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],[0,0,0,0,1,0,0,0,0,0,0,0,0,
 
 
 """Data Genarator Loop Count Hour"""
-for j in range(4):
+for j in range(1):
 
-    """Object of Thread Class"""
-    th=t()
-
+    '''"""Object of Thread Class"""
+    th=t()'''
+    junt=[]
     """Data Genarator Loop Count Charging Stations"""
     for i in range(10):
+        junt.append(threading.Thread(target =trying,args=(given_time,i,)))
+        junt[i].start()
+        #trying(given_time,i)
+        '''"""Object of Thread Class"""
+        th=t()
         """Station name According to MongoDb"""
         station="jun"+str(i)
 
@@ -369,9 +449,11 @@ for j in range(4):
 
         """Initialize Arrival & service Rate For next Ittaration"""
         jun.service_Rate=0
-        jun.arrival_rate=0
+        jun.arrival_rate=0'''
 
 
     """Update time By 1 Hour"""
+    for i in range(10):
+        junt[i].join()
     given_time+=datetime.timedelta(hours=1)
 

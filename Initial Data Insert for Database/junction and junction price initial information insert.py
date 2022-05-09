@@ -24,7 +24,7 @@ try:
 except:  
     print("Could not connect to MongoDB")
 my_Db=client.ElectricVehicle
-my_Collection=my_Db.Car
+my_Collection=my_Db.car
 #my_Car=Car()
 #picked_data = pkl.dumps(my_Car)
 #id=my_Car.id

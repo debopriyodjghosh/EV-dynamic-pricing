@@ -6,7 +6,7 @@ catch(MongoConnectionException $connectionException){
 print $connectionException;
 exit;}
 $db = $c->ElectricVehicle;
-$collection = $db->jun_price2;
+$collection = $db->jun0;
 $result=$collection->find([],['sort' => ['$natural'=>-1],'limit'=>1]);
 $data=array();
 foreach($result as $r){
