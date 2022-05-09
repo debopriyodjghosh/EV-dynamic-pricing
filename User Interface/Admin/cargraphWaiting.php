@@ -8,7 +8,7 @@ exit;}
 $db = $c->ElectricVehicle;
 $collection = $db->car;
 
-$result=$collection->find(array("charge_status"=>"waiting","station_id"=>0));
+$result=$collection->find(array("charge_status"=>"Wait","station_id"=>9));
 $data=array();
 foreach($result as $r){
     $data[]=$r;

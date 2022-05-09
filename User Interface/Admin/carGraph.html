@@ -17,6 +17,7 @@
                 $.ajax({
             async: false,
             type: "POST",
+            data:{data:9},
             url: "cargraphCharging.php",
             success: function (response) {
                 dt=parseInt(response);
