@@ -1,7 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
 
 <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+        EVUser
+    </title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>EVDP Admin</title>
@@ -37,12 +48,6 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
-        <!-- Preloader -->
-        <div class="preloader flex-column justify-content-center align-items-center">
-            <img class="animation__shake" src="a.jpg" alt="BatteryLogo" height="100" width="100">
-        </div>
-
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -162,185 +167,195 @@
             <!-- /.sidebar -->
         </aside>
 
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0">Dashboard</h1>
-                        </div>
-                        <!-- /.col -->
-
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.container-fluid -->
-            </div>
-            <!-- /.content-header -->
-
-            <!-- Main content -->
-            <section class="content">
-                <div class="container-fluid">
-                    <!-- Small boxes (Stat box) -->
-                    <div class="row">
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-info">
-                                <div class="inner">
-                                    <h3>10</h3>
-
-                                    <p>Stations</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-battery-charging"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>70<sup style="font-size: 20px">+</sup></h3>
-
-                                    <p>Charging Ports</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-ios-speedometer-outline"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-warning">
-                                <div class="inner">
-                                    <h3>44</h3>
-
-                                    <p>User Registrations</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-person-add"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                        <div class="col-lg-3 col-6">
-                            <!-- small box -->
-                            <div class="small-box bg-danger">
-                                <div class="inner">
-                                    <h3>5 +</h3>
-
-                                    <p>Service Station</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="ion ion-gear-a"></i>
-                                </div>
-                                <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
-                            </div>
-                        </div>
-                        <!-- ./col -->
-                    </div>
-
-                    <div class="wrapper">
-                        <div id="chart"></div>
-                        <script type="text/javascript">
-                            function getanother() {
-                                var dt;
-                                $.ajax({
-                                    async: false,
-                                    type: "POST",
-                                    data: {
-                                        data: 9
-                                    },
-                                    url: "cargraphCharging.php",
-                                    success: function(response) {
-                                        console.log(response);
-                                        dt = parseInt(response);
-                                    }
-                                });
-                                return dt;
-                            }
+        <!-- connect mongodb and fetch price -->
 
 
-                            function getData() {
-                                var dt;
-                                $.ajax({
-                                    async: false,
-                                    type: "POST",
-                                    url: "cargraphWaiting.php",
-                                    success: function(response) {
-                                        dt = parseInt(response);
-                                    }
-                                });
-                                return dt;
-                            }
-                            var layout = {
-                                title: "Charging Cars vs Waiting Cars"
-                            };
-                            Plotly.plot('chart', [{
-                                y: [getData()],
-                                type: 'line',
-
-                            }, {
-                                y: [getanother()],
-                                type: 'line',
-                            }], layout);
-
-                            var cnt = 0;
-
-                            setInterval(function() {
-
-                                Plotly.extendTraces('chart', {
-                                    y: [
-                                        [getData()],
-                                        [getanother()]
-                                    ]
-                                }, [0, 1]);
-                                cnt++;
-                                if (cnt > 500) {
-                                    Plotly.relayout('chart', {
-                                        xaxis: {
-                                            range: [cnt - 500, cnt]
-                                        }
-                                    });
-                                }
-                            }, 1000);
-                        </script>
-                    </div>
-
-
-
-
-
-                </div>
-                <!-- /.container-fluid -->
-            </section>
-            <!-- /.content -->
-        </div>
-
-
-        <!-- /.content-wrapper -->
-        <footer class="main-footer">
-            <strong>Copyright &copy; 2021-22 EVDP</a>.</strong> All rights reserved.
-            <div class="float-right d-none d-sm-inline-block">
-                <b>Version</b> 1.0.0
-            </div>
-        </footer>
-
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Control sidebar content goes here -->
-        </aside>
-        <!-- /.control-sidebar -->
     </div>
-    <!-- ./wrapper -->
+
+
+    <style>
+        #map {
+            position: absolute;
+            left: 19%;
+            width: 80%;
+            top: 80px;
+            bottom: 2.5%;
+        }
+        
+        h6 {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 400;
+        }
+        
+        h5 {
+            font-size: 22px;
+            margin: 0;
+            font-weight: 400;
+            padding: 10px 2px;
+        }
+    </style>
+    <div id="map"></div>
+    <script>
+        var map = L.map('map').setView([22.555, 88.371], 13);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 12,
+            id: 'mapbox/streets-v11',
+            tileSize: 512,
+            zoomOffset: -1,
+            accessToken: 'pk.eyJ1IjoiZGVib3ByaXlvZGoiLCJhIjoiY2wyMWs4NGg0MTY0NzNibXRjbTVtazkzbSJ9.AZFISzXydyjlqVpY5IMlqQ'
+        }).addTo(map);
+        //https://www.mapbox.com/
+        var LeafIcon = L.Icon.extend({
+            options: {
+                //shadowUrl: 'iconb.png',
+                iconSize: [50, 54],
+                shadowSize: [50, 64],
+                iconAnchor: [22, 94],
+                shadowAnchor: [4, 62],
+                popupAnchor: [-3, -76]
+            }
+        });
+
+        var greenIcon = new LeafIcon({
+                iconUrl: 'green.jpg'
+            }),
+            redIcon = new LeafIcon({
+                iconUrl: 'red.jpg'
+            }),
+            blackIcon = new LeafIcon({
+                iconUrl: 'black.png'
+            });
+
+        //static station data
+        var data = [{
+            "code": "Mahindra Charging Station",
+            "lat": "22.5783965",
+            "lng": "88.4523585",
+            "location": "1",
+            "icon": "redIcon",
+            "price": "20"
+        }, {
+            "code": "Hero Electric Charging Station",
+            "lat": "22.5485285",
+            "lng": "88.2904633",
+            "location": "2",
+            "icon": "redIcon",
+            "price": "21"
+        }, {
+            "code": "Electric Vehicle Charging Station",
+            "lat": "22.5615108",
+            "lng": "88.3665607",
+            "location": "3",
+            "icon": "redIcon",
+            "price": "22"
+        }, {
+            "code": "Electric Vehicle Charging Station",
+            "lat": "22.5389976",
+            "lng": "88.3288476",
+            "location": "4",
+            "icon": "greenIcon",
+            "price": "23"
+        }, {
+            "code": "Electric Vehicle Charging Station",
+            "lat": "22.5298197",
+            "lng": "88.2942399",
+            "location": "5",
+            "icon": "greenIcon",
+            "price": "24"
+        }, {
+            "code": "EESL Charging Station",
+            "lat": "22.5788384",
+            "lng": "88.4629932",
+            "location": "6",
+            "icon": "greenIcon",
+            "price": "25"
+        }, {
+            "code": "Hero Electric Charging Station",
+            "lat": "22.5110668",
+            "lng": "88.3465815",
+            "location": "7",
+            "icon": "greenIcon",
+            "price": "26"
+        }, {
+            "code": " Electric Vehicle Charging Station",
+            "lat": "22.5126164",
+            "lng": "88.3300567",
+            "location": "8",
+            "icon": "greenIcon",
+            "price": "27"
+        }, {
+            "code": "Electric Vehicle Charging Point",
+            "lat": "22.5656085",
+            "lng": "88.3923503",
+            "location": "9",
+            "icon": "greenIcon",
+            "price": "20"
+
+
+        }, {
+            "code": "Electric Vehicle Charging Station",
+            "lat": "22.581631",
+            "lng": "88.4261743",
+            "location": "10",
+            "icon": "greenIcon",
+            "price": "28"
+        }];
+        // for (var i = 0; i < data.length; i++) {
+        //     var datum = input[i];
+        //     if (!d[datum.key]) {
+        //         d[datum.key] = [];
+        //     }
+        //     d[datum.key].push(datum.val);
+        // }
+        //add marker on map
+        for (var i = 0; i < data.length - 4; i++) {
+            const popupContent =
+                '<h6>' + data[i].code + '</h6>' +
+                '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
+            // add the marker and popup to the map.
+
+            L.marker([data[i].lat, data[i].lng], {
+                icon: greenIcon
+            }).addTo(map).bindPopup(popupContent);
+
+        }
+        for (var i = 6; i < data.length - 2; i++) {
+            const popupContent =
+                '<h6>' + data[i].code + '</h6>' +
+                '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
+            // add the marker and popup to the map.
+
+            L.marker([data[i].lat, data[i].lng], {
+                icon: blackIcon
+            }).addTo(map).bindPopup(popupContent);
+        }
+        for (var i = 8; i < data.length; i++) {
+            const popupContent =
+                '<h6>' + data[i].code + '</h6>' +
+                '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
+            // add the marker and popup to the map.
+
+            L.marker([data[i].lat, data[i].lng], {
+                icon: redIcon
+            }).addTo(map).bindPopup(popupContent);
+
+
+        }
+        //lane highlight
+        var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+
+        L.Control.geocoder().addTo(map);
+    </script>
+
+
+
+
+
 
     <!-- jQuery -->
     <script src="plugins/jquery/jquery.min.js"></script>
@@ -372,9 +387,9 @@
     <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/adminlte.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+
     <script src="dist/js/pages/dashboard.js"></script>
+
 </body>
 
 </html>
