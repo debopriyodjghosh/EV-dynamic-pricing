@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>evdp</title>
+<!--     <title>evdp</title> -->
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -28,7 +28,7 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-dark">
             <!-- Left navbar links -->
-            <ul class="navbar-nav">
+<!--             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
@@ -37,7 +37,7 @@
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Signup</a>
-                </li>
+                </li> -->
 
 
                 <!-- 
@@ -45,10 +45,10 @@
                     <a href="#" class="nav-link">See Pricing</a>
                 </li> -->
 
-            </ul>
+<!--             </ul>
 
             <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
+<!--             <ul class="navbar-nav ml-auto"> -->
                 <!-- Navbar Search -->
                 <!-- <li class="nav-item">
 
@@ -60,11 +60,11 @@
                 <!-- Messages Dropdown Menu -->
 
                 <!-- Notifications Dropdown Menu -->
-                <li class="nav-item d-none d-sm-inline-block">
+<!--                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Login</a>
-                </li>
+                </li> -->
 
-            </ul>
+<!--             </ul> --> 
         </nav>
         <!-- /.navbar -->
 
