@@ -99,7 +99,7 @@ def arrival_Thread(charging_station,thread_object,rand_List,starting_Time,my_Col
         my_Collection2.update_many({"date":str(starting_Time.date()),"time":starting_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
         while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
             continue
-        time.sleep(1.5)
+        time.sleep(.5)
         
         
         print(str(charging_station.id)+" -> "+str(charging_station.no_Of_Ports_Available)+"*****"+str(charging_station.no_Of_Ports))
@@ -166,7 +166,7 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
                 
                 while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
                     continue
-                time.sleep(1.5)
+                time.sleep(.5)
                 print(str(charging_station.id)+" -> "+str(charging_station.no_Of_Ports_Available)+"+++++"+str(charging_station.no_Of_Ports))
                 i+=1
 
@@ -183,7 +183,7 @@ def getprice(t,i):
     optimalLambda=getLambdaOptimal(predictedSum,i+1)
     difference=predictedLambda[i+1] - optimalLambda
     print(difference)
-    nextPrice = previousPrice + getGamma()*difference
+    nextPrice = 8 + getGamma()*difference
     print(nextPrice[0])
     return nextPrice[0]
 
@@ -234,7 +234,7 @@ def getLambdaOptimal(sum,i):
 
 
 def getGamma():
-    gamma = 1/10.0
+    gamma = 1/5.0
     return gamma
 
 
@@ -257,7 +257,7 @@ def getNumberofPorts(i):
     my_collection=my_Db[collection_name]
     result=my_collection.find().limit(1)
     for r in result:
-        no_of_port=r['no_of_port_available']
+        no_of_port=r['no_of_port']
     return no_of_port
 
 

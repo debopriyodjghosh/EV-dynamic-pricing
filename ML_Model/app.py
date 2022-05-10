@@ -21,8 +21,9 @@ def getprice():
         id="jun"+str(i)+"_"+str(datetime.datetime.now().date())+str(datetime.datetime.now().hour)
         previousPrice=getPreviousPrice(i)
         optimalLambda=getLambdaOptimal(predictedSum,i)
-        print("optimal "+str(optimalLambda))
+        #print("optimal "+str(optimalLambda))
         difference=predictedLambda[i] - optimalLambda
+        print("difference "+str(difference))
         nextPrice = previousPrice + getGamma()*difference
         #print(nextPrice[0])
         collection_name = "jun_price" + str(i)
@@ -45,7 +46,7 @@ def getPredictedLambda():
         arr=np.array([[dt.day, dt.weekday(), dt.hour, dt.month, dt.timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
         predict = model[i].predict(arr)
         predicted.append(predict) 
-    print("predicted "+str(predicted))  
+    #print("predicted "+str(predicted))  
     return predicted 
 
 def getLambdaOptimal(sum,i):
