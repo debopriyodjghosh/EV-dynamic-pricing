@@ -257,7 +257,7 @@ def getNumberofPorts(i):
     my_collection=my_Db[collection_name]
     result=my_collection.find().limit(1)
     for r in result:
-        no_of_port=r['no_of_port']
+        no_of_port=r['no_of_port_available']
     return no_of_port
 
 
