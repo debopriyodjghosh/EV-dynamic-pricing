@@ -172,20 +172,20 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
 
 
 
-def getprice(t):
+def getprice(t,i):
     predictedLambda=getPredictedLambda(t)
     predictedSum=0
     for predicted in predictedLambda:
         print("predicted: "+str(predicted))
         predictedSum = predictedSum + predicted
-    for i in range(1,11):
-        previousPrice=getPreviousPrice(i-1)
-        optimalLambda=getLambdaOptimal(predictedSum,i)
-        difference=predictedLambda[i] - optimalLambda
-        print(difference)
-        nextPrice = previousPrice + getGamma()*difference
-        print(nextPrice[0])
-        return nextPrice[0]
+    #for i in range(1,11):
+    previousPrice=getPreviousPrice(i)
+    optimalLambda=getLambdaOptimal(predictedSum,i+1)
+    difference=predictedLambda[i+1] - optimalLambda
+    print(difference)
+    nextPrice = previousPrice + getGamma()*difference
+    print(nextPrice[0])
+    return nextPrice[0]
 
 
 
@@ -293,7 +293,7 @@ def trying(given_time,i):
 
 
     """predict the price"""
-    price=getprice(given_time)
+    price=getprice(given_time,i)
 
     """Insert New Time Data to the Charging Station"""
     mytab.insert_one({
