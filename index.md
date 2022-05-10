@@ -1,208 +1,274 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-        EVUser
-    </title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
-    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>evdp</title>
 
-
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/adminlte.min.css">
 
 </head>
 
-<body>
-    <style>
-        #map {
-            height: 600px;
-        }
-    </style>
-    <div id="map"></div>
+<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
 
-    <script>
-        var map = L.map('map').setView([22.555, 88.371], 13);
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-            maxZoom: 18,
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1,
-            accessToken: 'pk.eyJ1IjoiZGVib3ByaXlvZGoiLCJhIjoiY2wyMWs4NGg0MTY0NzNibXRjbTVtazkzbSJ9.AZFISzXydyjlqVpY5IMlqQ'
-        }).addTo(map);
-        //https://www.mapbox.com/
-        var LeafIcon = L.Icon.extend({
-            options: {
-                //shadowUrl: 'iconb.png',
-                iconSize: [50, 54],
-                shadowSize: [50, 64],
-                iconAnchor: [22, 94],
-                shadowAnchor: [4, 62],
-                popupAnchor: [-3, -76]
-            }
-        });
+        <!-- Preloader -->
+        <div class="preloader flex-column justify-content-center align-items-center">
+            <img class="animation__shake" src="a.jpg" alt="BatteryLogo" height="200" width="200">
+        </div>
 
-        var greenIcon = new LeafIcon({
-                iconUrl: 'green.jpg'
-            }),
-            redIcon = new LeafIcon({
-                iconUrl: 'red.jpg'
-            }),
-            blackIcon = new LeafIcon({
-                iconUrl: 'black.png'
-            });
-        //static marker
-        /*Mahindra Charging Station, Near Tank No 3, Opp Goutams, Street Number 24, Action Area I, New Town, West Bengal 700156
-        L.marker([22.5783965, 88.4523585], {
-            icon: greenIcon
-        }).addTo(map);
-        //EESL Charging Station 22.5788384,88.4629932  Hatgacha, ECI CHURCH New Town, Sub-Central Business District(Action Area 1), Action Area I, Newtown, Kolkata, West Bengal 700156
-        L.marker([22.5788384, 88.4629932], {
-            icon: greenIcon
-        }).addTo(map);
-        //Electric Vehicle Charging Station  NH34, Jatragachhi, Deshbandhu Nagar, Newtown, Kolkata, West Bengal 700156
-        L.marker([22.5872191, 88.469606], {
-            icon: greenIcon
-        }).addTo(map);
-        //NKDA Charging Station Unnamed Road, Jatragachhi, Deshbandhu Nagar, Rekjuani, Kolkata, West Bengal 700156
-        L.marker([22.5778496, 88.4558645], {
-            icon: greenIcon
-        }).addTo(map);*/
-
-        //class marker
-        L.marker([22.5783965, 88.4523585], {
-            icon: greenIcon
-        }).addTo(map).bindPopup("1 Mahindra Charging Station");
-
-        L.marker([22.5485285, 88.2904633], {
-            icon: greenIcon
-        }).addTo(map).bindPopup("2 Hero Electric Charging Station");
-
-        L.marker([22.5615108, 88.3665607], {
-            icon: redIcon
-        }).addTo(map).bindPopup("3 Electric Vehicle Charging Station");
-
-        L.marker([22.5389976, 88.3288476], {
-            icon: redIcon
-        }).addTo(map).bindPopup("4 Electric Vehicle Charging Station");
-
-        L.marker([22.5298197, 88.2942399], {
-            icon: blackIcon
-        }).addTo(map).bindPopup("5 Electric Vehicle Charging Station");
-
-        L.marker([22.5788384, 88.4629932], {
-            icon: redIcon
-        }).addTo(map).bindPopup("6 EESL Charging Station");
-
-        L.marker([22.5110668, 88.3465815], {
-            icon: greenIcon
-        }).addTo(map).bindPopup("7 Hero Electric Charging Station");
-
-        L.marker([22.5126164, 88.3300567], {
-            icon: blackIcon
-        }).addTo(map).bindPopup("8 Electric Vehicle Charging Station");
-
-        /* L.marker([22.5409597, 88.2979774], {
-             icon: blackIcon
-         }).addTo(map).bindPopup("9 Electric Vehicle Charging Station");*/
-
-        L.marker([22.5656085, 88.3923503], {
-            icon: greenIcon
-        }).addTo(map).bindPopup("9 Electric Vehicle Charging Point");
-
-        L.marker([22.581631, 88.4261743], {
-            icon: greenIcon
-        }).addTo(map).bindPopup("10 Electric Vehicle Charging Station");
-
-        L.marker([22.5462715, 88.311114], {
-            icon: redIcon
-        }).addTo(map).bindPopup("11 Electric Vehicle Charging Station");
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-dark">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Signup</a>
+                </li>
 
 
+                <!-- 
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">See Pricing</a>
+                </li> -->
+
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Navbar Search -->
+                <!-- <li class="nav-item">
 
 
+                    <a class="btn btn-success" onclick=r(); href="#">Direction</a>
 
-        // var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        //     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        // }).addTo(map);
+                </li> -->
 
+                <!-- Messages Dropdown Menu -->
 
-        L.Control.geocoder().addTo(map);
-        //navigate to current location 
-        // if (!navigator.geolocation) {
-        //     console.log("Your browser doesn't support geolocation feature!")
-        // } else {
-        //     setInterval(() => {
-        //         navigator.geolocation.getCurrentPosition(getPosition)
-        //     }, 5000);
-        // };
-        // var marker, circle, lat, long, accuracy;
+                <!-- Notifications Dropdown Menu -->
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link">Login</a>
+                </li>
 
-        // function getPosition(position) {
-        //     // console.log(position)
-        //     lat = position.coords.latitude
-        //     long = position.coords.longitude
-        //     accuracy = position.coords.accuracy
+            </ul>
+        </nav>
+        <!-- /.navbar -->
 
-        //     if (marker) {
-        //         map.removeLayer(marker)
-        //     }
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-link">
+                <!-- <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8"> -->
 
-        //     if (circle) {
-        //         map.removeLayer(circle)
-        //     }
+                <i class="fa fa-spinner fa-pulse fa-1.5x fa-fw"></i>
+                </i> <span class="brand-text font-weight-light">EVDP</span>
+                <i class="fas fa-truck-monster"></i>
+            </a>
 
-        //     marker = L.marker([lat, long])
-        //     circle = L.circle([lat, long], {
-        //         radius: accuracy
-        //     })
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <!-- <div class="image">
+                        <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                    </div> -->
+                    <div class="info">
+                        <a href="#" class="d-block">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fas fa-truck-monster"></i> &nbsp;TATA Nexon</a>
 
-        //     var featureGroup = L.featureGroup([marker, circle]).addTo(map)
+                        <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                        <i class="fa fa-cog fa-spin fa-3x fa-fw"></i>
+                    </div>
+                </div>
 
-        //     map.fitBounds(featureGroup.getBounds())
-
-        //     console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy)
-        // }
-
-
-        navigator.geolocation.getCurrentPosition(position => {
-            const {
-                coords: {
-                    latitude,
-                    longitude
-                }
-            } = position;
-            var marker = new L.marker([latitude, longitude], {
-                draggable: true,
-                autoPan: true
-            }).addTo(map);
-
-            //console.log(marker);
-            console.log(latitude, longitude);
-
-            //routing
-            L.Routing.control({
-                    waypoints: [
-                        L.latLng(latitude, longitude),
-                        L.latLng(22.5485285, 88.2904633)
-                    ],
-                    routeWhileDragging: true,
-                    geocoder: L.Control.Geocoder.nominatim(),
-                })
-                .addTo(map);
+                <!-- SidebarSearch Form -->
 
 
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                        <!-- Add icons to the links using the .nav-icon class
+               with font-awesome or any other icon font library -->
+                        <li class="nav-item menu-open">
+                            <!-- <a href="" class="nav-link active">
+                                <i class="nav-icon fas fa-tachometer-alt"></i>
+                                <p>
+                                    Find Station
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
 
-        })
-    </script>
+                            <ul class="nav nav-treeview">
+
+                            </ul> -->
+                            <!-- <li class="nav-item">
+                                    <a href="neareststn.html" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Find Now</p>
+                                    </a>
+                                </li> -->
+                            <li class="nav-header">Low Power Service</li>
+                            <li class="nav-item">
+                                <a href="neareststn.html" class="nav-link">
+                                    <i class="nav-icon fa fa-charging-station"></i>
+                                    <p class="text">Find Station</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link" disabled>
+                                    <i class="nav-icon fa fa-car"></i>
+                                    <p>Drive Now</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="book.html" class="nav-link">
+                                    <i class="nav-icon far fa-edit"></i>
+                                    <p>Book a Slot</p>
+                                </a>
+                            </li>
+
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0">Electric Vehicle Dashboard</h1>
+                        </div>
+                        <!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+                </div>
+                <!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <!-- Info boxes -->
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box">
+                                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-battery-full"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Battery Power</span>
+                                    <span class="info-box-number">
+                  90
+                  <small>%</small>
+                </span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-clock"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Last Charged</span>
+                                    <span class="info-box-number">6:10 AM</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+
+                        <!-- fix for small devices only -->
+                        <div class="clearfix hidden-md-up"></div>
+
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-road"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Trip</span>
+                                    <span class="info-box-number">76 KM</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-12 col-sm-6 col-md-3">
+                            <div class="info-box mb-3">
+                                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-music"></i></span>
+
+                                <div class="info-box-content">
+                                    <span class="info-box-text">Music</span>
+                                    <span class="info-box-number">2,000</span>
+                                </div>
+                                <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <img src="dash.jpg" width="1200" height="380">
+                        <!-- /.col -->
+                    </div>
+                    <!-- /.row -->
+
+
+                    <!-- Control Sidebar -->
+                    <aside class="control-sidebar control-sidebar-dark">
+                        <!-- Control sidebar content goes here -->
+                    </aside>
+                    <!-- /.control-sidebar -->
+
+                    <!-- Main Footer -->
+                    <footer class="main-footer">
+                        <strong>Copyright &copy; 2022-2023 EVDP.</strong> All rights reserved.
+                        <div class="float-right d-none d-sm-inline-block">
+                            <b>Version</b> 1.0
+                        </div>
+                    </footer>
+                </div>
+                <!-- ./wrapper -->
+
+                <!-- REQUIRED SCRIPTS -->
+                <!-- jQuery -->
+                <script src="plugins/jquery/jquery.min.js"></script>
+                <!-- Bootstrap -->
+                <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <!-- overlayScrollbars -->
+                <script src="plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+                <!-- AdminLTE App -->
+                <script src="dist/js/adminlte.js"></script>
+
+                <!-- PAGE PLUGINS -->
+                <!-- jQuery Mapael -->
+                <script src="plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+                <script src="plugins/raphael/raphael.min.js"></script>
+                <script src="plugins/jquery-mapael/jquery.mapael.min.js"></script>
+                <script src="plugins/jquery-mapael/maps/usa_states.min.js"></script>
+                <!-- ChartJS -->
+                <script src="plugins/chart.js/Chart.min.js"></script>
+
 
 </body>
 

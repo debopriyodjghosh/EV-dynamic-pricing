@@ -1,0 +1,199 @@
+//navigate to current location // if (!navigator.geolocation) { // console.log("Your browser doesn't support geolocation feature!") // } else { // setInterval(() => { // navigator.geolocation.getCurrentPosition(getPosition) // }, 5000); // }; // var marker,
+circle, lat, long, accuracy; // function getPosition(position) { // // console.log(position) // lat = position.coords.latitude // long = position.coords.longitude // accuracy = position.coords.accuracy // if (marker) { // map.removeLayer(marker) // }
+// if (circle) { // map.removeLayer(circle) // } // marker = L.marker([lat, long]) // circle = L.circle([lat, long], { // radius: accuracy // }) // var featureGroup = L.featureGroup([marker, circle]).addTo(map) // map.fitBounds(featureGroup.getBounds())
+// console.log("Your coordinate is: Lat: " + lat + " Long: " + long + " Accuracy: " + accuracy) // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Get driving directions from one location to another</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%
+        }
+    </style>
+</head>
+
+<body>
+    <style>
+        #instructions {
+            position: absolute;
+            height: 100px;
+            margin: 20px;
+            width: 25%;
+            top: 0;
+            bottom: 0;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            overflow-y: scroll;
+            font-family: sans-serif;
+        }
+        
+        .marker {
+            background-image: url('./marker.png');
+            background-size: cover;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+    </style>
+
+    <!--  the map -->
+    <div id='map'></div>
+    <!-- left side instructions -->
+    <div id='instructions'>
+        <div id="calculated-line"></div>
+    </div>
+
+
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
+        var instructions = document.getElementById('instructions');
+
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9', //hosted style id
+            center: [<?php echo $longitude; ?>, <?php echo $latitude; ?>], // starting position
+            zoom: 15, // starting zoom
+            minZoom: 11 // keep it local
+        });
+
+
+
+        var position = navigator.geolocation.watchPosition(updateRoute);
+
+
+        // use the coordinates you just drew to make your directions request
+        function updateRoute(position) {
+            map.flyTo({
+                center: [position.coords.longitude, position.coords.latitude],
+                essential: true
+            });
+            var geojson = {
+                type: 'FeatureCollection',
+                features: [{
+                    type: 'Feature',
+                    geometry: {
+                        type: 'Point',
+                        coordinates: [position.coords.longitude, position.coords.latitude]
+                    }
+                }]
+            };
+
+            // create a HTML element for each feature
+            var el = document.createElement('div');
+            el.className = 'marker';
+
+            // make a marker for each feature and add to the map
+            new mapboxgl.Marker(el)
+                .setLngLat(geojson.features[0].geometry.coordinates)
+                .addTo(map);
+
+            removeRoute(); // overwrite any existing layers
+            var newCoords = position.coords.longitude + "," + position.coords.latitude + ";<?php echo $longitude.','.$latitude; ?>";
+            getMatch(newCoords);
+        }
+
+        // remove the layer if it exists
+        function removeRoute() {
+            if (map.getSource('route')) {
+                map.removeLayer('route');
+                map.removeSource('route');
+                instructions.innerHTML = '';
+            } else {
+                return;
+            }
+        }
+
+        // make a directions request
+        function getMatch(e) {
+            var url = 'https://api.mapbox.com/directions/v5/mapbox/driving/' + e + '?geometries=geojson&steps=true&access_token=' + mapboxgl.accessToken;
+            var req = new XMLHttpRequest();
+            req.responseType = 'json';
+            req.open('GET', url, true);
+            req.onload = function() {
+                var jsonResponse = req.response;
+                var distance = jsonResponse.routes[0].distance * 0.001;
+                var duration = jsonResponse.routes[0].duration / 60;
+                var steps = jsonResponse.routes[0].legs[0].steps;
+                var coords = jsonResponse.routes[0].geometry;
+
+
+                // get route directions on load map
+                steps.forEach(function(step) {
+                    instructions.insertAdjacentHTML('beforeend', '<p>' + step.maneuver.instruction + '</p>');
+                });
+                // get distance and duration
+                instructions.insertAdjacentHTML('beforeend', '<p>' + 'Distance: ' + distance.toFixed(2) + ' km<br>Duration: ' + duration.toFixed(2) + ' minutes' + '</p>');
+
+                // add the route to the map
+                addRoute(coords);
+                // console.log(coordinates);
+
+            };
+            req.send();
+        }
+
+
+        // adds the route as a layer on the map
+        function addRoute(coords) {
+            // check if the route is already loaded
+            if (map.getSource('route')) {
+                map.removeLayer('route');
+                map.removeSource('route')
+            } else {
+                map.addLayer({
+                    "id": "route",
+                    "type": "line",
+                    "source": {
+                        "type": "geojson",
+                        "data": {
+                            "type": "Feature",
+                            "properties": {},
+                            "geometry": coords
+                        }
+                    },
+
+                    "layout": {
+                        "line-join": "round",
+                        "line-cap": "round"
+                    },
+                    "paint": {
+                        "line-color": "#1db7dd",
+                        "line-width": 4,
+                        "line-opacity": 1
+                    }
+                });
+            };
+        }
+    </script>
