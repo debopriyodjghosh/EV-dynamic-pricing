@@ -228,7 +228,7 @@
                             </div>
                             <!-- /.info-box -->
                         </div>
-                        <img src="dash.jpg" width="1200" height="380">
+<!--                         <img src="dash.jpg" width="1200" height="380"> -->
                         <!-- /.col -->
                     </div>
                     <!-- /.row -->
