@@ -65,9 +65,9 @@ def arrival_Thread(charging_station,thread_object,rand_List,starting_Time,my_Col
                 charging_station.no_Of_Ports_Available-=1
 
                 """update database"""
-                status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
-                icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
-                my_Collection2.update_many({"date":str(starting_Time.date()),"time":starting_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
+                #status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
+                #icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
+                #my_Collection2.update_many({"date":str(starting_Time.date()),"time":starting_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
 
             #If no port available the create the cars with the status wait
             elif(charging_station.no_Of_Ports_Available==0):
@@ -91,8 +91,12 @@ def arrival_Thread(charging_station,thread_object,rand_List,starting_Time,my_Col
 
         """synchronizer of two thread"""
         thread_object.thread_synchronize_arrival=False
-        
+        """update database"""
+        status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
+        icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
+
         """wait for other thread Completion of the minute"""
+        my_Collection2.update_many({"date":str(starting_Time.date()),"time":starting_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
         while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
             continue
         time.sleep(1.5)
@@ -116,7 +120,7 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
                 current_Time=current_Time+datetime.timedelta(minutes=1)
 
                 """search the cars that are need to dispatch at the minute"""
-                dispatch_Result=my_Collection1.find({"station_id":charging_station.id,"charge_status":"Charging","dis_Time":{ '$gte':current_Time+datetime.timedelta(seconds=-1), '$lt':(current_Time+datetime.timedelta(minutes=1)) }})
+                dispatch_Result=my_Collection1.find({"station_id":charging_station.id,"charge_status":"Charging","dis_Time":{ '$gte':current_Time, '$lt':(current_Time+datetime.timedelta(minutes=1)) }})
                 
                 """update the database with sa=tatus charging to Finish"""
                 for dispatch_information in dispatch_Result:
@@ -127,10 +131,10 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
                     charging_station.no_Of_Ports_Available+=1
                     
 
-                    """update the station database"""
-                    status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
-                    icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
-                    my_Collection2.update_many({"date":str(current_Time.date()),"time":current_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
+                    #"""update the station database"""
+                    #status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
+                    #icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
+                    #my_Collection2.update_many({"date":str(current_Time.date()),"time":current_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
                     
                     charging_station.service_Rate+=1
 
@@ -147,14 +151,19 @@ def Dispatch_Thread(charging_station,thread_object,current_Time,my_Collection1,m
                         charging_station.no_Of_Ports_Available-=1
                         
 
-                        """update station database"""
-                        status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
-                        icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
-                        my_Collection2.update_many({"date":str(current_Time.date()),"time":current_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
+                        #"""update station database"""
+                        #status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
+                        #icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
+                        #my_Collection2.update_many({"date":str(current_Time.date()),"time":current_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
                 
                 """synchronizer of two thread"""
                 thread_object.thred_Pause_Variable=False
                 thread_object.thread_synchronize_dis=False
+                """update the station database"""
+                status = "available" if charging_station.no_Of_Ports_Available!=0 else "occupied"
+                icon= "greenIcon" if charging_station.no_Of_Ports_Available!=0 else "redIcon"
+                my_Collection2.update_many({"date":str(current_Time.date()),"time":current_Time.hour},{"$set":{"no_of_port_available":charging_station.no_Of_Ports_Available,"status": status,"icon":icon,}})
+                
                 while(thread_object.thread_synchronize_arrival or thread_object.thread_synchronize_dis):
                     continue
                 time.sleep(1.5)
@@ -325,7 +334,7 @@ def trying(given_time,i):
     
     """update data to CSV File"""
     row=[given_time,i+1,jun.arrival_rate,jun.id]
-    csvfilename="Simulator & Data Generator/jun"+str(i)+".csv"
+    csvfilename="F:/xampp/htdocs/EV-dynamic-pricing/Simulator & Data Generator/jun"+str(i)+".csv"
     with open(csvfilename, 'a') as f_object:
         writer_object = writer(f_object)
         writer_object.writerow(row)
@@ -379,79 +388,6 @@ while True:
         junt.append(threading.Thread(target =trying,args=(given_time,i,)))
         junt[i].start()
         #trying(given_time,i)
-        '''"""Object of Thread Class"""
-        th=t()
-        """Station name According to MongoDb"""
-        station="jun"+str(i)
-
-        """MongoDb Station Collection Selection"""
-        mytab=my_Db[station]
-
-        """Fetch last data enter in MongoDb For Collectect Previous Information"""
-        output=dict(mytab.find().limit(1).sort([('$natural', -1)]).next())
-
-        """Create Charging Station Object"""
-        jun=cs.Charging_Station(output['id'],output['no_of_port'],output['no_of_port_available'],starting_Time.hour,starting_Time.hour+1)
-        
-        """Status of current situation of the Station"""
-        status = "available" if jun.no_Of_Ports_Available!=0 else "occupied"
-        icon= "greenIcon" if jun.no_Of_Ports_Available!=0 else "redIcon"
-
-
-        """predict the price"""
-        price=getprice(given_time)
-
-        """Insert New Time Data to the Charging Station"""
-        mytab.insert_one({
-                            "id":i,
-                            "Name": "Station"+str(i),
-                            "lat": "",
-                            "long":"",
-                            "location":"",
-                            "date":str(given_time.date()),
-                            "time":given_time.hour,
-                            "no_of_port_available":jun.no_Of_Ports_Available,
-                            "status": status,
-                            "icon":icon,
-                            "no_of_port":jun.no_Of_Ports,
-                            "charging_time":output['charging_time'],
-                            "price":price
-                        })
-        
-        """Select How many data will genarate Now according to the Time"""
-        h=int(given_time.hour/4)
-        print(rand_List[h])
-        
-        """Call the Thread for Genarting Car"""
-        t1 = threading.Thread(target = arrival_Thread, args=(jun,th,rand_List[h],given_time,my_Collection1,mytab,output['charging_time']))
-        t2= threading.Thread(target = Dispatch_Thread,args=(jun,th,given_time,my_Collection1,mytab,output['charging_time']))
-        t1.start()
-        t2.start()
-        t2.join()
-        t1.join()
-
-        """After 1 hour Print the Arrival rate & Service rate"""
-        print("Arrival Rate=",jun.arrival_rate)
-        print("Service Rate=",jun.service_Rate)
-
-        """Count the current Queue Size"""
-        queue_Size=my_Collection1.count_documents({"charge_status":{"$in":["Charging","Wait"]},"station_id":jun.id})
-        print("queue size"+str(queue_Size))
-        
-        """update data to CSV File"""
-        row=[given_time,i+1,jun.arrival_rate,jun.id]
-        csvfilename="Simulator & Data Generator/jun"+str(i)+".csv"
-        with open(csvfilename, 'a') as f_object:
-            writer_object = writer(f_object)
-            writer_object.writerow(row)
-            f_object.close()
-
-
-        """Initialize Arrival & service Rate For next Ittaration"""
-        jun.service_Rate=0
-        jun.arrival_rate=0'''
-
-
     """Update time By 1 Hour"""
     for i in range(10):
         junt[i].join()

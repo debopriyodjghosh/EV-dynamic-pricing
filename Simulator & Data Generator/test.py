@@ -259,3 +259,75 @@ print('thread killed successfull')'''
             self.book.save(e)
 s=Simulator()
 s.start()'''
+
+'''"""Object of Thread Class"""
+        th=t()
+        """Station name According to MongoDb"""
+        station="jun"+str(i)
+
+        """MongoDb Station Collection Selection"""
+        mytab=my_Db[station]
+
+        """Fetch last data enter in MongoDb For Collectect Previous Information"""
+        output=dict(mytab.find().limit(1).sort([('$natural', -1)]).next())
+
+        """Create Charging Station Object"""
+        jun=cs.Charging_Station(output['id'],output['no_of_port'],output['no_of_port_available'],starting_Time.hour,starting_Time.hour+1)
+        
+        """Status of current situation of the Station"""
+        status = "available" if jun.no_Of_Ports_Available!=0 else "occupied"
+        icon= "greenIcon" if jun.no_Of_Ports_Available!=0 else "redIcon"
+
+
+        """predict the price"""
+        price=getprice(given_time)
+
+        """Insert New Time Data to the Charging Station"""
+        mytab.insert_one({
+                            "id":i,
+                            "Name": "Station"+str(i),
+                            "lat": "",
+                            "long":"",
+                            "location":"",
+                            "date":str(given_time.date()),
+                            "time":given_time.hour,
+                            "no_of_port_available":jun.no_Of_Ports_Available,
+                            "status": status,
+                            "icon":icon,
+                            "no_of_port":jun.no_Of_Ports,
+                            "charging_time":output['charging_time'],
+                            "price":price
+                        })
+        
+        """Select How many data will genarate Now according to the Time"""
+        h=int(given_time.hour/4)
+        print(rand_List[h])
+        
+        """Call the Thread for Genarting Car"""
+        t1 = threading.Thread(target = arrival_Thread, args=(jun,th,rand_List[h],given_time,my_Collection1,mytab,output['charging_time']))
+        t2= threading.Thread(target = Dispatch_Thread,args=(jun,th,given_time,my_Collection1,mytab,output['charging_time']))
+        t1.start()
+        t2.start()
+        t2.join()
+        t1.join()
+
+        """After 1 hour Print the Arrival rate & Service rate"""
+        print("Arrival Rate=",jun.arrival_rate)
+        print("Service Rate=",jun.service_Rate)
+
+        """Count the current Queue Size"""
+        queue_Size=my_Collection1.count_documents({"charge_status":{"$in":["Charging","Wait"]},"station_id":jun.id})
+        print("queue size"+str(queue_Size))
+        
+        """update data to CSV File"""
+        row=[given_time,i+1,jun.arrival_rate,jun.id]
+        csvfilename="Simulator & Data Generator/jun"+str(i)+".csv"
+        with open(csvfilename, 'a') as f_object:
+            writer_object = writer(f_object)
+            writer_object.writerow(row)
+            f_object.close()
+
+
+        """Initialize Arrival & service Rate For next Ittaration"""
+        jun.service_Rate=0
+        jun.arrival_rate=0'''
