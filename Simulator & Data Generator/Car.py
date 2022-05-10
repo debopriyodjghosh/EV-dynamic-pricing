@@ -13,7 +13,7 @@ class Car:
 
     #constructtor
     def __init__(self,arr_Time,c_time,charge_status):
-        self.reg_id=random.randint(1,1000)
+        self.reg_id=str(datetime.datetime.now().date())+str(datetime.datetime.now().hour)+str(datetime.datetime.now().minute)+str(datetime.datetime.now().second)+(str(datetime.datetime.now().microsecond))
         self.arr_Time=arr_Time
         self.b_status=random.randint(1,75)
         self.charge_status=charge_status
