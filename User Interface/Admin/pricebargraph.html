@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<body>
+
+<div id="myPlot" style="width:100%;max-width:700px"></div>
+
+<script>
+var xArray = ["staion1", "staion2", "staion3", "staion4", "staion5", "staion16", "staion7", "staion8", "staion9", "staion10"];
+var res;
+$.ajax({
+            async: false,
+            type: "POST",
+            url: "pricebargraph.php",
+            success: function (response) {
+                res = JSON.parse(response); 
+            }
+        });
+        // console.log(res);
+        var yArray = res;
+
+var data = [{
+  x:xArray,
+  y:yArray,
+  type:"bar"
+}];
+
+var layout = {title:"Price in different Charging Stations"};
+
+Plotly.newPlot("myPlot", data, layout);
+</script>
+
+</body>
+</html>
