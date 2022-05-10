@@ -46,8 +46,7 @@
             }
             #map {
                 position: absolute;
-                left: 18%;
-                width: 80%;
+                
                 top: 50px;
                 bottom: 5px;
             }
