@@ -151,70 +151,93 @@
                     iconUrl: 'black.png'
                 });
 
+            var res;
+            function change(){
+
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "fetchdata.php",
+                    success: function(response) {
+                        res = JSON.parse(response);
+                        console.log(res);
+                    }
+                });
+            
             //static station data
+
             var data = [{
                 "code": "Mahindra Charging Station",
                 "lat": "22.5783965",
                 "lng": "88.4523585",
                 "location": "1",
-                "icon": "redIcon",
-                "price": "20"
+                "icon": res[0].icon,
+                "price": res[0].price,
+                "Available_ports": res[0].no_of_port_available
             }, {
                 "code": "Hero Electric Charging Station",
                 "lat": "22.5485285",
                 "lng": "88.2904633",
                 "location": "2",
-                "icon": "redIcon",
-                "price": "21"
+                "icon": res[1].icon,
+                "price": res[1].price,
+                "Available_ports": res[1].no_of_port_available
             }, {
                 "code": "Electric Vehicle Charging Station",
                 "lat": "22.5615108",
                 "lng": "88.3665607",
                 "location": "3",
-                "icon": "redIcon",
-                "price": "22"
+                "icon": res[2].icon,
+                "price": res[2].price,
+                "Available_ports": res[2].no_of_port_available
             }, {
                 "code": "Electric Vehicle Charging Station",
                 "lat": "22.5389976",
                 "lng": "88.3288476",
                 "location": "4",
-                "icon": "greenIcon",
-                "price": "23"
+                "icon": res[3].icon,
+                "price": res[3].price,
+                "Available_ports": res[3].no_of_port_available
             }, {
                 "code": "Electric Vehicle Charging Station",
                 "lat": "22.5298197",
                 "lng": "88.2942399",
                 "location": "5",
-                "icon": "greenIcon",
-                "price": "24"
+                "icon": String(res[4].icon),
+                "price": res[4].price,
+                "Available_ports": res[4].no_of_port_available
             }, {
                 "code": "EESL Charging Station",
                 "lat": "22.5788384",
                 "lng": "88.4629932",
                 "location": "6",
-                "icon": "greenIcon",
-                "price": "25"
+                "icon": res[5].icon,
+                "price": res[5].price,
+                "Available_ports": res[5].no_of_port_available
             }, {
                 "code": "Hero Electric Charging Station",
                 "lat": "22.5110668",
                 "lng": "88.3465815",
                 "location": "7",
-                "icon": "greenIcon",
-                "price": "26"
+                "icon": res[6].icon,
+                "price": res[6].price,
+                "Available_ports": res[6].no_of_port_available
             }, {
                 "code": " Electric Vehicle Charging Station",
                 "lat": "22.5126164",
                 "lng": "88.3300567",
                 "location": "8",
-                "icon": "greenIcon",
-                "price": "27"
+                "icon": res[7].icon,
+                "price": res[7].price,
+                "Available_ports": res[7].no_of_port_available
             }, {
                 "code": "Electric Vehicle Charging Point",
                 "lat": "22.5656085",
                 "lng": "88.3923503",
                 "location": "9",
-                "icon": "greenIcon",
-                "price": "20"
+                "icon": res[8].icon,
+                "price": res[8].price,
+                "Available_ports": res[8].no_of_port_available
 
 
             }, {
@@ -222,9 +245,11 @@
                 "lat": "22.581631",
                 "lng": "88.4261743",
                 "location": "10",
-                "icon": "greenIcon",
-                "price": "28"
+                "icon": res[9].icon,
+                "price": res[9].price,
+                "Available_ports": res[9].no_of_port_available
             }];
+            console.log(data);
             // for (var i = 0; i < data.length; i++) {
             //     var datum = input[i];
             //     if (!d[datum.key]) {
@@ -233,39 +258,43 @@
             //     d[datum.key].push(datum.val);
             // }
             //add marker on map
-            for (var i = 0; i < data.length - 4; i++) {
+            for (var i = 0; i < data.length; i++) {
                 const popupContent =
                     '<h6>' + data[i].code + '</h6>' +
-                    '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
+                    '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>' +
+                    '<h6> Available ports:' + data[i].Available_ports + '</h6>';
                 // add the marker and popup to the map.
 
                 L.marker([data[i].lat, data[i].lng], {
-                    icon: greenIcon
+                    icon: eval(data[i].icon)
                 }).addTo(map).bindPopup(popupContent);
 
             }
-            for (var i = 6; i < data.length - 2; i++) {
-                const popupContent =
-                    '<h6>' + data[i].code + '</h6>' +
-                    '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
-                // add the marker and popup to the map.
+        }
+        var a;
+        a=setInterval(change,300);
+            // for (var i = 6; i < data.length - 2; i++) {
+            //     const popupContent =
+            //         '<h6>' + data[i].code + '</h6>' +
+            //         '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
+            //     // add the marker and popup to the map.
 
-                L.marker([data[i].lat, data[i].lng], {
-                    icon: blackIcon
-                }).addTo(map).bindPopup(popupContent);
-            }
-            for (var i = 8; i < data.length; i++) {
-                const popupContent =
-                    '<h6>' + data[i].code + '</h6>' +
-                    '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
-                // add the marker and popup to the map.
+            //     L.marker([data[i].lat, data[i].lng], {
+            //         icon: blackIcon
+            //     }).addTo(map).bindPopup(popupContent);
+            // }
+            // for (var i = 8; i < data.length; i++) {
+            //     const popupContent =
+            //         '<h6>' + data[i].code + '</h6>' +
+            //         '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
+            //     // add the marker and popup to the map.
 
-                L.marker([data[i].lat, data[i].lng], {
-                    icon: redIcon
-                }).addTo(map).bindPopup(popupContent);
+            //     L.marker([data[i].lat, data[i].lng], {
+            //         icon: redIcon
+            //     }).addTo(map).bindPopup(popupContent);
 
 
-            }
+            // }
             //lane highlight
             var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
