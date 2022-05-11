@@ -1,0 +1,175 @@
+<!-- <!DOCTYPE html>
+<html>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<body>
+
+<div id="myPlot" style="width:100%;max-width:700px"></div>
+
+<script>
+var xArray = ["staion1", "staion2", "staion3", "staion4", "staion5", "staion16", "staion7", "staion8", "staion9", "staion10"];
+var res;
+$.ajax({
+            async: false,
+            type: "POST",
+            url: "pricebargraph.php",
+            success: function (response) {
+                res = JSON.parse(response); 
+            }
+        });
+        console.log(res);
+        var yArray = res;
+
+var data = [{
+  x:xArray,
+  y:yArray,
+  type:"bar"
+}];
+
+var layout = {title:"Price in different Charging Stations"};
+
+Plotly.newPlot("myPlot", data, layout);
+</script>
+
+</body>
+</html> -->
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+</head>
+
+<body>
+    <div class="navbar"><span>waiting and charging cars</span></div>
+    <div class="wrapper">
+        <div id="chart"></div>
+        <script type="text/javascript">
+            // function getanother() {
+            //     var dt;
+            //     $.ajax({
+            // async: false,
+            // type: "POST",
+            // data:{data:9},
+            // url: "cargraphCharging.php",
+            // success: function (response) {
+            //     console.log(response);
+            //     dt=parseInt(response);
+            // }
+            //  });
+            //  return dt;
+            // }
+            
+            
+            function getData(i) {
+              // console.log(i);
+                var dt=[];
+                $.ajax({
+            async: false,
+            type: "POST",
+            data:{data:i},
+            url: "pricegraph.php",
+            success: function (response) {
+                
+                dt.push(JSON.parse(response)[0].price);
+                dt.push(JSON.parse(response)[0].date + ("-") + (JSON.parse(response)[0].time) + "-00");
+                // console.log(JSON.parse(response)[0]);
+
+              }
+            });
+            console.log(dt);
+             return dt;
+            }
+            var layout = {
+            title: "Charging Cars vs Waiting Cars"
+            };
+            Plotly.plot('chart', [
+              {
+                y: [getData(0)[0]],
+                type: 'line',
+
+            }, 
+            {
+                y: [getData(1)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(2)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(3)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(4)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(5)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(6)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(7)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(8)[0]],
+                type: 'line',
+            },
+            {
+                y: [getData(9)[0]],
+                type: 'line',
+            }
+          ],layout);
+
+            var cnt = 0;
+
+            setInterval(function () {
+
+                Plotly.extendTraces('chart', {
+                  x:[
+                        [getData(0)[0]],
+                        [getData(1)[0]],
+                        [getData(2)[0]],
+                        [getData(3)[0]],
+                        [getData(4)[0]],
+                        [getData(5)[0]],
+                        [getData(6)[0]],
+                        [getData(7)[0]],
+                        [getData(8)[0]],
+                        [getData(9)[0]]]
+                    y: [
+                        [getData(0)[0]],
+                        [getData(1)[0]],
+                        [getData(2)[0]],
+                        [getData(3)[0]],
+                        [getData(4)[0]],
+                        [getData(5)[0]],
+                        [getData(6)[0]],
+                        [getData(7)[0]],
+                        [getData(8)[0]],
+                        [getData(9)[0]]
+                    ]
+                }, [0, 1,2,3,4,5,6,7,8,9]);
+                cnt++;
+                if (cnt > 500) {
+                    Plotly.relayout('chart', {
+                        xaxis: {
+                            range: [cnt - 500, cnt]
+                        }
+                    });
+                }
+            }, 30000);
+        </script>
+    </div>
+
+</body>
+
+</html>
