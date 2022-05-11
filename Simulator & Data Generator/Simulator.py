@@ -361,7 +361,8 @@ my_Collection1=my_Db.car
 model=[]
 model.append(0)
 for i in range (1,11):
-   file='F:/xampp/htdocs/EV-dynamic-pricing/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
+   file='C:/xampp/htdocs/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
+    # file='F:/xampp/htdocs/EV-dynamic-pricing/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
 
