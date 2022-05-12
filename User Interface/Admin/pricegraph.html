@@ -63,101 +63,70 @@ Plotly.newPlot("myPlot", data, layout);
             // }
             
             
-            function getData(i) {
-              // console.log(i);
+            function getData() {
+                // console.log(i);
                 var dt=[];
                 $.ajax({
             async: false,
             type: "POST",
-            data:{data:i},
+            // data:{data:i},
             url: "pricegraph.php",
             success: function (response) {
                 
-                dt.push(JSON.parse(response)[0].price);
-                dt.push(JSON.parse(response)[0].date + ("-") + (JSON.parse(response)[0].time) + "-00");
-                // console.log(JSON.parse(response)[0]);
+                // dt.push(JSON.parse(response)[0].price);
+                // dt.push(JSON.parse(response)[0].date + ("-") + (JSON.parse(response)[0].time) + "-00");
+                dt=(JSON.parse(response));
 
               }
             });
-            console.log(dt);
-             return dt;
-            }
+            return dt;
+        }
+        data=getData();
+        // console.log(data);
+            var x0Values = [data[0].date + ("-") + data[0].time + "-00"];
+            var x1Values = [data[1].date + ("-") + data[1].time + "-00"];
+            var x2Values = [data[2].date + ("-") + data[2].time + "-00"];
+            var x3Values = [data[3].date + ("-") + data[3].time + "-00"];
+            var x4Values = [data[4].date + ("-") + data[4].time + "-00"];
+            var x5Values = [data[5].date + ("-") + data[5].time + "-00"];
+            var x6Values = [data[6].date + ("-") + data[6].time + "-00"];
+            var x7Values = [data[7].date + ("-") + data[7].time + "-00"];
+            var x8Values = [data[8].date + ("-") + data[8].time + "-00"];
+            var x9Values = [data[9].date + ("-") + data[9].time + "-00"];
+            var y0Values = [data[0].price];
+            var y1Values = [data[1].price];
+            var y2Values = [data[2].price];
+            var y3Values = [data[3].price];
+            var y4Values = [data[4].price];
+            var y5Values = [data[5].price];
+            var y6Values = [data[6].price];
+            var y7Values = [data[7].price];
+            var y8Values = [data[8].price];
+            var y9Values = [data[9].price];
+
+
+            var values = [
+            {x: x0Values, y: y0Values, mode:"lines"},
+            {x: x1Values, y: y1Values, mode:"lines"},
+            {x: x2Values, y: y2Values, mode:"lines"},
+            {x: x3Values, y: y3Values, mode:"lines"},
+            {x: x4Values, y: y4Values, mode:"lines"},
+            {x: x5Values, y: y5Values, mode:"lines"},
+            {x: x6Values, y: y6Values, mode:"lines"},
+            {x: x7Values, y: y7Values, mode:"lines"},
+            {x: x8Values, y: y8Values, mode:"lines"},
+            {x: x9Values, y: y9Values, mode:"lines"}
+            ];
             var layout = {
             title: "Charging Cars vs Waiting Cars"
             };
-            Plotly.plot('chart', [
-              {
-                y: [getData(0)[0]],
-                type: 'line',
-
-            }, 
-            {
-                y: [getData(1)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(2)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(3)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(4)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(5)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(6)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(7)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(8)[0]],
-                type: 'line',
-            },
-            {
-                y: [getData(9)[0]],
-                type: 'line',
-            }
-          ],layout);
+            Plotly.plot('chart', values,layout);
 
             var cnt = 0;
 
             setInterval(function () {
 
-                Plotly.extendTraces('chart', {
-                  x:[
-                        [getData(0)[0]],
-                        [getData(1)[0]],
-                        [getData(2)[0]],
-                        [getData(3)[0]],
-                        [getData(4)[0]],
-                        [getData(5)[0]],
-                        [getData(6)[0]],
-                        [getData(7)[0]],
-                        [getData(8)[0]],
-                        [getData(9)[0]]]
-                    y: [
-                        [getData(0)[0]],
-                        [getData(1)[0]],
-                        [getData(2)[0]],
-                        [getData(3)[0]],
-                        [getData(4)[0]],
-                        [getData(5)[0]],
-                        [getData(6)[0]],
-                        [getData(7)[0]],
-                        [getData(8)[0]],
-                        [getData(9)[0]]
-                    ]
-                }, [0, 1,2,3,4,5,6,7,8,9]);
+                Plotly.redraw('chart', values,layout);
                 cnt++;
                 if (cnt > 500) {
                     Plotly.relayout('chart', {
