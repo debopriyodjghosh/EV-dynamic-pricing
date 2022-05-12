@@ -125,7 +125,26 @@ Plotly.newPlot("myPlot", data, layout);
             var cnt = 0;
 
             setInterval(function () {
-
+                x0Values.push(data[0].date + ("-") + data[0].time + "-00")
+                x1Values.push(data[1].date + ("-") + data[1].time + "-00")
+                x2Values.push(data[2].date + ("-") + data[2].time + "-00")
+                x3Values.push(data[3].date + ("-") + data[3].time + "-00")
+                x4Values.push(data[4].date + ("-") + data[4].time + "-00")
+                x5Values.push(data[5].date + ("-") + data[5].time + "-00")
+                x6Values.push(data[6].date + ("-") + data[6].time + "-00")
+                x7Values.push(data[7].date + ("-") + data[7].time + "-00")
+                x8Values.push(data[8].date + ("-") + data[8].time + "-00")
+                x9Values.push(data[9].date + ("-") + data[9].time + "-00")
+                y0Values.push(data[0].price)
+                y1Values.push(data[1].price)
+                y2Values.push(data[2].price)
+                y3Values.push(data[3].price)
+                y4Values.push(data[4].price)
+                y5Values.push(data[5].price)
+                y6Values.push(data[6].price)
+                y7Values.push(data[7].price)
+                y8Values.push(data[8].price)
+                y9Values.push(data[9].price)
                 Plotly.redraw('chart', values,layout);
                 cnt++;
                 if (cnt > 500) {
