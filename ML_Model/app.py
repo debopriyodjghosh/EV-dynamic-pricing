@@ -15,15 +15,17 @@ def getprice():
     predictedLambda=getPredictedLambda()
     predictedSum=0
     for predicted in predictedLambda:
-        print("predicted: "+str(predicted))
+        #print("predicted: "+str(predicted))
         predictedSum = predictedSum + predicted
     for i in range(1,11):
         id="jun"+str(i)+"_"+str(datetime.datetime.now().date())+str(datetime.datetime.now().hour)
         previousPrice=getPreviousPrice(i)
         optimalLambda=getLambdaOptimal(predictedSum,i)
+        #print("optimal "+str(optimalLambda))
         difference=predictedLambda[i] - optimalLambda
+        print("difference "+str(difference))
         nextPrice = previousPrice + getGamma()*difference
-        print(nextPrice[0])
+        #print(nextPrice[0])
         collection_name = "jun_price" + str(i)
         my_collection=mydb[collection_name]
         my_collection.insert_one(
@@ -43,7 +45,8 @@ def getPredictedLambda():
         dt = datetime.datetime.now()
         arr=np.array([[dt.day, dt.weekday(), dt.hour, dt.month, dt.timetuple().tm_yday, datetime.datetime.utcnow().isocalendar()[1]]])
         predict = model[i].predict(arr)
-        predicted.append(predict)   
+        predicted.append(predict) 
+    #print("predicted "+str(predicted))  
     return predicted 
 
 def getLambdaOptimal(sum,i):
@@ -60,7 +63,6 @@ def getLambdaOptimal(sum,i):
         lowersum=lowersum+lower
     upper_side=lambSum+uppersum
     lambdaOptimal=upper_side/lowersum
-    print("optimal: "+str(lambdaOptimal))
     return lambdaOptimal
 
 
@@ -72,7 +74,7 @@ def getPreviousPrice(i):
     #letest price fetch
     new=dict(my_collection.find().limit(1).sort([('$natural', -1)]).next())
     prevPrice=new['price']
-    print("previous: "+str(prevPrice))
+    #print("previous: "+str(prevPrice))
     return prevPrice
 
 def getGamma():
@@ -84,11 +86,11 @@ def getServicerate():
     li=[]
     li.append(0)
     for i in range(1,11):
-        ports=getNumberofPorts(i)
-        chargetime=getchargeTime(i)
+        ports=getNumberofPorts(i-1)
+        chargetime=getchargeTime(i-1)
         serviceRate=(60/chargetime)*ports
         li.append(serviceRate)
-
+    #print(serviceRate)
     return li
 
 def getNumberofPorts(i):
@@ -110,6 +112,7 @@ def getchargeTime(i):
     result=my_collection.find().limit(1)
     for r in result:
         charging_time=r['charging_time']
+        #print("charging Time "+str(charging_time))
     return charging_time
     #   get from database
     #chargeTime=20 #change this
@@ -127,9 +130,9 @@ mydb = client.ElectricVehicle
 model=[]
 model.append(0)
 for i in range (1,11):
-   file='F://xampp//htdocs//EV-dynamic-pricing//ML_Model//'+'JunModel'+str(i)+'.pkl'
+   file='F:/xampp/htdocs/EV-dynamic-pricing/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
 while(True):
     getprice()
-    time.sleep(2)
+    time.sleep(3600)

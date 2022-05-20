@@ -33,10 +33,10 @@ def get_weekofyear(dt):
 
 
 for i in range(1,11):
-	file="C:/xampp/htdocs/vehicle/"+"JUN"+str(i)+".csv"
+	file="F:/xampp/htdocs/EV-dynamic-pricing/ML_Model/ten csv's/"+"JUN"+str(i)+".csv"
 	train = pd.read_csv(file)
 	train = train.drop(['Junction'],axis=1)
-	train = train.drop(['ID'],axis=1)
+	#train = train.drop(['ID'],axis=1)
 	# function to get all data from time stamp
 	train['DateTime'] = train['DateTime'].map(pd.to_datetime)
 	train['date'] = train['DateTime'].map(get_dom)
@@ -57,7 +57,7 @@ for i in range(1,11):
 	m1=RandomForestRegressor()
 
 	m1.fit(train1.values,target)
-	file1="C:/xampp/htdocs/vehicle/"+"JunModel"+str(i)+".pkl"
+	file1="F:/xampp/htdocs/EV-dynamic-pricing/ML_Model/randomforest pickles/"+"JunModel"+str(i)+".pkl"
 	pickle.dump(m1,open(file1,'wb'))
 
 	#testing

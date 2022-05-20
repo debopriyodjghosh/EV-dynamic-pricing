@@ -1,5 +1,5 @@
 <?php require 'vendor/autoload.php';
- $dt =(int) $_POST['data'];
+//  $dt =(int) $_POST['data'];
 $server = "mongodb://localhost:27017";
 try{// Connecting to server
 $c = new MongoDB\Client($server);}

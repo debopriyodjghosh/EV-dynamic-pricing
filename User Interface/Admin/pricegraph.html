@@ -1,0 +1,163 @@
+<!-- <!DOCTYPE html>
+<html>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<body>
+
+<div id="myPlot" style="width:100%;max-width:700px"></div>
+
+<script>
+var xArray = ["staion1", "staion2", "staion3", "staion4", "staion5", "staion16", "staion7", "staion8", "staion9", "staion10"];
+var res;
+$.ajax({
+            async: false,
+            type: "POST",
+            url: "pricebargraph.php",
+            success: function (response) {
+                res = JSON.parse(response); 
+            }
+        });
+        console.log(res);
+        var yArray = res;
+
+var data = [{
+  x:xArray,
+  y:yArray,
+  type:"bar"
+}];
+
+var layout = {title:"Price in different Charging Stations"};
+
+Plotly.newPlot("myPlot", data, layout);
+</script>
+
+</body>
+</html> -->
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+</head>
+
+<body>
+    <div class="navbar"><span>waiting and charging cars</span></div>
+    <div class="wrapper">
+        <div id="chart"></div>
+        <script type="text/javascript">
+            // function getanother() {
+            //     var dt;
+            //     $.ajax({
+            // async: false,
+            // type: "POST",
+            // data:{data:9},
+            // url: "cargraphCharging.php",
+            // success: function (response) {
+            //     console.log(response);
+            //     dt=parseInt(response);
+            // }
+            //  });
+            //  return dt;
+            // }
+            
+            
+            function getData() {
+                // console.log(i);
+                var dt=[];
+                $.ajax({
+            async: false,
+            type: "POST",
+            // data:{data:i},
+            url: "pricegraph.php",
+            success: function (response) {
+                
+                // dt.push(JSON.parse(response)[0].price);
+                // dt.push(JSON.parse(response)[0].date + ("-") + (JSON.parse(response)[0].time) + "-00");
+                dt=(JSON.parse(response));
+
+              }
+            });
+            return dt;
+        }
+        data=getData();
+        // console.log(data);
+            var x0Values = [data[0].date + ("-") + data[0].time + "-00"];
+            var x1Values = [data[1].date + ("-") + data[1].time + "-00"];
+            var x2Values = [data[2].date + ("-") + data[2].time + "-00"];
+            var x3Values = [data[3].date + ("-") + data[3].time + "-00"];
+            var x4Values = [data[4].date + ("-") + data[4].time + "-00"];
+            var x5Values = [data[5].date + ("-") + data[5].time + "-00"];
+            var x6Values = [data[6].date + ("-") + data[6].time + "-00"];
+            var x7Values = [data[7].date + ("-") + data[7].time + "-00"];
+            var x8Values = [data[8].date + ("-") + data[8].time + "-00"];
+            var x9Values = [data[9].date + ("-") + data[9].time + "-00"];
+            var y0Values = [data[0].price];
+            var y1Values = [data[1].price];
+            var y2Values = [data[2].price];
+            var y3Values = [data[3].price];
+            var y4Values = [data[4].price];
+            var y5Values = [data[5].price];
+            var y6Values = [data[6].price];
+            var y7Values = [data[7].price];
+            var y8Values = [data[8].price];
+            var y9Values = [data[9].price];
+
+
+            var values = [
+            {x: x0Values, y: y0Values, mode:"lines"},
+            {x: x1Values, y: y1Values, mode:"lines"},
+            {x: x2Values, y: y2Values, mode:"lines"},
+            {x: x3Values, y: y3Values, mode:"lines"},
+            {x: x4Values, y: y4Values, mode:"lines"},
+            {x: x5Values, y: y5Values, mode:"lines"},
+            {x: x6Values, y: y6Values, mode:"lines"},
+            {x: x7Values, y: y7Values, mode:"lines"},
+            {x: x8Values, y: y8Values, mode:"lines"},
+            {x: x9Values, y: y9Values, mode:"lines"}
+            ];
+            var layout = {
+            title: "Charging Cars vs Waiting Cars"
+            };
+            Plotly.plot('chart', values,layout);
+
+            var cnt = 0;
+
+            setInterval(function () {
+                x0Values.push(data[0].date + ("-") + data[0].time + "-00")
+                x1Values.push(data[1].date + ("-") + data[1].time + "-00")
+                x2Values.push(data[2].date + ("-") + data[2].time + "-00")
+                x3Values.push(data[3].date + ("-") + data[3].time + "-00")
+                x4Values.push(data[4].date + ("-") + data[4].time + "-00")
+                x5Values.push(data[5].date + ("-") + data[5].time + "-00")
+                x6Values.push(data[6].date + ("-") + data[6].time + "-00")
+                x7Values.push(data[7].date + ("-") + data[7].time + "-00")
+                x8Values.push(data[8].date + ("-") + data[8].time + "-00")
+                x9Values.push(data[9].date + ("-") + data[9].time + "-00")
+                y0Values.push(data[0].price)
+                y1Values.push(data[1].price)
+                y2Values.push(data[2].price)
+                y3Values.push(data[3].price)
+                y4Values.push(data[4].price)
+                y5Values.push(data[5].price)
+                y6Values.push(data[6].price)
+                y7Values.push(data[7].price)
+                y8Values.push(data[8].price)
+                y9Values.push(data[9].price)
+                Plotly.redraw('chart', values,layout);
+                cnt++;
+                if (cnt > 500) {
+                    Plotly.relayout('chart', {
+                        xaxis: {
+                            range: [cnt - 500, cnt]
+                        }
+                    });
+                }
+            }, 30000);
+        </script>
+    </div>
+
+</body>
+
+</html>
