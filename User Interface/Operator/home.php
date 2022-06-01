@@ -1,3 +1,6 @@
+<?php
+require "DBConnection.php";
+?>
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -250,14 +253,6 @@
                 "Available_ports": res[9].no_of_port_available
             }];
             console.log(data);
-            // for (var i = 0; i < data.length; i++) {
-            //     var datum = input[i];
-            //     if (!d[datum.key]) {
-            //         d[datum.key] = [];
-            //     }
-            //     d[datum.key].push(datum.val);
-            // }
-            //add marker on map
             for (var i = 0; i < data.length; i++) {
                 const popupContent =
                     '<h6>' + data[i].code + '</h6>' +
@@ -273,29 +268,6 @@
         }
         var a;
         a=setInterval(change,300);
-            // for (var i = 6; i < data.length - 2; i++) {
-            //     const popupContent =
-            //         '<h6>' + data[i].code + '</h6>' +
-            //         '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
-            //     // add the marker and popup to the map.
-
-            //     L.marker([data[i].lat, data[i].lng], {
-            //         icon: blackIcon
-            //     }).addTo(map).bindPopup(popupContent);
-            // }
-            // for (var i = 8; i < data.length; i++) {
-            //     const popupContent =
-            //         '<h6>' + data[i].code + '</h6>' +
-            //         '<h5><strong>' + 'Price Now : ' + data[i].price + '/-' + '</strong>' + '</h5>';
-            //     // add the marker and popup to the map.
-
-            //     L.marker([data[i].lat, data[i].lng], {
-            //         icon: redIcon
-            //     }).addTo(map).bindPopup(popupContent);
-
-
-            // }
-            //lane highlight
             var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             }).addTo(map);
