@@ -4,12 +4,13 @@ if(!isset($_SESSION['user_id'])){
     header("Location:./login.php");
     exit;
 }
-require_once('DBConnection.php');
+//require_once('DBConnection.php');
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
 if($_SESSION['type'] != 1 && in_array($page,array('maintenance','products','stocks'))){
     header("Location:./");
     exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

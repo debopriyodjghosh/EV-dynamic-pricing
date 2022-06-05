@@ -26,6 +26,8 @@
             </thead>
             <tbody>
                 <?php 
+                require_once('DBConnection.php');
+
                 $sql = "SELECT * FROM `user_list` where user_id != 1 order by `fullname` asc";
                 $qry = $conn->query($sql);
                 $i = 1;
