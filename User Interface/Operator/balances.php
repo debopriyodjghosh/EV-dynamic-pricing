@@ -23,6 +23,8 @@
             </thead>
             <tbody>
                 <?php 
+                require_once('DBConnection.php');
+
                 $sql = "SELECT * FROM `customer_list` order by `fullname` asc";
                 $qry = $conn->query($sql);
                 $i = 1;

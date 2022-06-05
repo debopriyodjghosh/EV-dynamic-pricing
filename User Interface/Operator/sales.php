@@ -37,6 +37,8 @@
                     <div class="col-auto flex-grow-1 overflow-auto">
                             <div class="row row-cols-sm-1 row-cols-md-2 row-cols-xl-3 gx-2 gy-2 my-2 mx-1">
                                 <?php 
+                                require_once('DBConnection.php');
+
                                 $petrol = $conn->query("SELECT * FROM `petrol_type_list` where `status` = 1 order by `name` asc");
                                 while($row=$petrol->fetchArray()):
                                 ?>

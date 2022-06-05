@@ -1,5 +1,7 @@
 
 <?php 
+require_once('DBConnection.php');
+
 $dfrom = isset($_GET['date_from']) ? $_GET['date_from'] : date("Y-m-d",strtotime(date("Y-m-d")." -1 week"));
 $dto = isset($_GET['date_to']) ? $_GET['date_to'] : date("Y-m-d");
 ?>

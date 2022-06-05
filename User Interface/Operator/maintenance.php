@@ -12,6 +12,7 @@ require 'vendor/autoload.php';
 // echo $updateResult;
 //foreach ($cursor as $document) {
 // $cursor = $collection->find().limit(1).sort'({'$natural:-1'})';
+require_once('DBConnection.php');
 
 $m = new MongoDB\Client;
 $server = "mongodb://localhost:27017";
