@@ -293,7 +293,7 @@ def trying(given_time,i):
 
 
     """predict the price"""
-    price=getprice(given_time,i)
+    price=round(getprice(given_time,i),2)
 
     """Insert New Time Data to the Charging Station"""
     mytab.insert_one({
@@ -361,8 +361,8 @@ my_Collection1=my_Db.car
 model=[]
 model.append(0)
 for i in range (1,11):
-   file='C:/xampp/htdocs/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
-    # file='F:/xampp/htdocs/EV-dynamic-pricing/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
+#    file='C:/xampp/htdocs/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
+   file='c:/xampp/htdocs/EV-dynamic-pricing/ML_Model/randomforest pickles/'+'JunModel'+str(i)+'.pkl'
    m1=pickle.load(open(file,'rb'))
    model.append(m1)
 
