@@ -155,6 +155,24 @@
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item menu-open">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p class="nav-link active">
+                                <select name="Stations" id="station">
+                                    <option value="0">Charging Station 0</option>
+                                    <option value="1">Charging Station 1</option>
+                                    <option value="2">Charging Station 2</option>
+                                    <option value="3">Charging Station 3</option>
+                                    <option value="4">Charging Station 4</option>
+                                    <option value="5">Charging Station 5</option>
+                                    <option value="6">Charging Station 6</option>
+                                    <option value="7">Charging Station 7</option>
+                                    <option value="8">Charging Station 8</option>
+                                    <option value="9">Charging Station 9</option>
+                                </select>
+                            </p>
+
+                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -251,67 +269,71 @@
                     <div class="wrapper">
                         <div id="chart"></div>
                         <script type="text/javascript">
-                            function getanother() {
-                                var dt;
-                                $.ajax({
-                                    async: false,
-                                    type: "POST",
-                                    data: {
-                                        data: 9
-                                    },
-                                    url: "cargraphCharging.php",
-                                    success: function(response) {
-                                        console.log(response);
-                                        dt = parseInt(response);
-                                    }
-                                });
-                                return dt;
-                            }
-
-
-                            function getData() {
-                                var dt;
-                                $.ajax({
-                                    async: false,
-                                    type: "POST",
-                                    url: "cargraphWaiting.php",
-                                    success: function(response) {
-                                        dt = parseInt(response);
-                                    }
-                                });
-                                return dt;
-                            }
-                            var layout = {
-                                title: "Charging Cars vs Waiting Cars"
-                            };
-                            Plotly.plot('chart', [{
-                                y: [getData()],
-                                type: 'line',
-
-                            }, {
-                                y: [getanother()],
-                                type: 'line',
-                            }], layout);
-
-                            var cnt = 0;
-
-                            setInterval(function() {
-
-                                Plotly.extendTraces('chart', {
-                                    y: [
-                                        [getData()],
-                                        [getanother()]
-                                    ]
-                                }, [0, 1]);
-                                cnt++;
-                                if (cnt > 500) {
-                                    Plotly.relayout('chart', {
-                                        xaxis: {
-                                            range: [cnt - 500, cnt]
+                                function getanother() {
+                                    var dt;
+                                    $.ajax({
+                                        async: false,
+                                        type: "POST",
+                                        data: {
+                                            data: document.getElementById('station').value
+                                        },
+                                        url: "cargraphCharging.php",
+                                        success: function(response) {
+                                            console.log(response);
+                                            dt = parseInt(response);
                                         }
                                     });
+                                    return dt;
                                 }
-                            }, 1000);
+
+
+                                function getData() {
+                                    var dt;
+                                    $.ajax({
+                                        async: false,
+                                        type: "POST",
+                                        data: {
+                                            data: document.getElementById('station').value
+                                        },
+                                        url: "cargraphWaiting.php",
+                                        success: function(response) {
+                                            dt = parseInt(response);
+                                        }
+                                    });
+                                    return dt;
+                                }
+                                var layout = {
+                                    title: "Charging Cars vs Waiting Cars"
+                                };
+                                Plotly.plot('chart', [{
+                                    y: [getData()],
+                                    type: 'line',
+                                    name: 'waiting'
+                                }, {
+                                    y: [getanother()],
+                                    type: 'line',
+                                    name: 'Charging'
+                                }], layout);
+
+                                var cnt = 0;
+
+                                setInterval(function() {
+
+                                    Plotly.extendTraces('chart', {
+                                        y: [
+                                            [getData()],
+                                            [getanother()]
+                                        ]
+                                    }, [0, 1]);
+                                    cnt++;
+                                    if (cnt > 500) {
+                                        Plotly.relayout('chart', {
+                                            xaxis: {
+                                                range: [cnt - 500, cnt]
+                                            }
+                                        });
+                                    }
+                                }, 1000);
                         </script>
                     </div>
 
