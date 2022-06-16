@@ -1,5 +1,5 @@
-<?php require 'C:/xampp/htdocs/User Interface/Admin/vendor/autoload.php';
-// <?php require 'C:/xampp/htdocs/EV-dynamic-pricing/User Interface/Admin/vendor/autoload.php';
+
+<?php require 'C:/xampp/htdocs/EV-dynamic-pricing/User Interface/Admin/vendor/autoload.php';
 
 $server = "mongodb://localhost:27017";
 try{// Connecting to server

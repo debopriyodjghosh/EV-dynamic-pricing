@@ -1,17 +1,6 @@
 <?php
 require 'vendor/autoload.php';
-   // connect to mongodb
-   //echo "Connection to EV database successfully";
-   // select a database
-   //$db = $m->ElectricVehicle;
-   //echo "Database mydb selected";
 
-// $collection = $db->jun_price1;
-// $query = ['time' => '12' ];
-// $updateResult = $collection->findOne($query);
-// echo $updateResult;
-//foreach ($cursor as $document) {
-// $cursor = $collection->find().limit(1).sort'({'$natural:-1'})';
 require_once('DBConnection.php');
 
 $m = new MongoDB\Client;
@@ -22,12 +11,13 @@ catch(MongoConnectionException $connectionException){
 print $connectionException;
 exit;}
 $db = $c->ElectricVehicle;
-$collection = $db->jun0;
-$cursor= $collection->findOne([],['sort' => ['price' => -1],'projection' => ['price' => 1]]);
-$prev = $collection->find();
+$collection = $db->jun1;
+$cursor= $collection->findOne([],['sort'=>['_id' => -1],'limit'=>1]);
+// $cursor= $collection->findOne([],['sort' => ['price' => -1],'projection' => ['price' => 1]]);
+$prev = $collection->find([],['sort'=>['_id' => -1],'limit'=>10]);
         
 
-//echo $cursor["price"];
+// echo $cursor["price"];
 
 
 ?>
@@ -108,7 +98,13 @@ $prev = $collection->find();
     <h5 class="card-title">Previous Price</h5>
     <p class="card-text">
         <?php 
+       $count=0;
     foreach ($prev as $document) {
+        if($count==0){
+
+            $count++;
+                continue;
+        }
         echo $document["date"] ;
         echo " : ";
         echo $document["time"] ;
